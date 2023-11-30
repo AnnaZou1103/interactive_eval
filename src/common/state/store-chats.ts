@@ -19,6 +19,8 @@ export interface DConversation {
   id: string;
   messages: DMessage[];
   systemPurposeId: SystemPurposeId;
+  evaluationId?:string;
+  conversationId?: string;
   userTitle?: string;
   autoTitle?: string;
   tokenCount: number;                 // f(messages, llmId)
@@ -60,9 +62,11 @@ export interface DMessage {
   avatar: string | null;            // null, or image url
   typing: boolean;
   role: 'assistant' | 'system' | 'user';
+  isRated: boolean;
 
   purposeId?: SystemPurposeId;      // only assistant/system
   originLLM?: string;               // only assistant - model that generated this message, goes beyond known models
+  choices?: string[];
 
   tokenCount: number;               // cache for token count, using the current Conversation model (0 = not yet calculated)
 
@@ -78,6 +82,7 @@ export function createDMessage(role: DMessage['role'], text: string): DMessage {
     avatar: null,
     typing: false,
     role: role,
+    isRated: false,
     tokenCount: 0,
     created: Date.now(),
     updated: null,
@@ -119,6 +124,11 @@ interface ChatActions {
   deleteConversation: (conversationId: string) => void;
   deleteAllConversations: () => void;
   setActiveConversationId: (conversationId: string) => void;
+  setPairedEvaluationId:(conversationId: string, evaluationId: string)=>void;
+  getPairedConversationId:(conversationId: string)=>string;
+  getPairedEvaluationId:(conversationId: string)=>string;
+  getConversationTitle:(conversationId: string)=>string;
+
 
   // within a conversation
   startTyping: (conversationId: string, abortController: AbortController | null) => void;
@@ -130,6 +140,7 @@ interface ChatActions {
   setSystemPurposeId: (conversationId: string, systemPurposeId: SystemPurposeId) => void;
   setAutoTitle: (conversationId: string, autoTitle: string) => void;
   setUserTitle: (conversationId: string, userTitle: string) => void;
+  getMessageAnswerId: (conversationId: string, messageId: string) => string;
 
   appendEphemeral: (conversationId: string, devTool: DEphemeral) => void;
   deleteEphemeral: (conversationId: string, ephemeralId: string) => void;
@@ -257,8 +268,56 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
         });
       },
 
-      setActiveConversationId: (conversationId: string) =>
-        set({ activeConversationId: conversationId }),
+      setActiveConversationId: (conversationId: string) =>        
+      set({ activeConversationId: conversationId }),
+
+      setPairedEvaluationId: (conversationId: string, evaluationId: string) =>
+        get()._editConversation(conversationId, {
+          evaluationId,
+        }),
+
+      getPairedConversationId:(conversationId: string)=>{
+        const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
+        if (conversation && conversation.conversationId){
+          return conversation.conversationId;
+        }else{
+          return ''
+        }
+      },
+
+      getPairedEvaluationId:(conversationId: string)=>{
+        const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
+        if (conversation && conversation.evaluationId){
+          return conversation.evaluationId;
+        }else{
+          return ''
+        }
+      },
+
+      getConversationTitle:(conversationId: string)=>{
+        const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
+        if (conversation && (conversation.userTitle || conversation.autoTitle)){
+          return conversation.userTitle || conversation.autoTitle || '';
+        }else{
+          return ''
+        }
+      },
+
+      getMessageAnswerId: (conversationId: string, messageId: string)=>{
+        const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
+        if (conversation){
+          for (let i=0; i<conversation.messages.length; i++){
+            let message = conversation.messages[i];
+            if (message.id == messageId){
+              let answer = conversation.messages[i+1];
+              return answer.id;
+            }
+          }
+          return ''
+        }else{
+          return ''
+        }
+      },
 
 
       // within a conversation

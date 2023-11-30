@@ -3,7 +3,9 @@ import TimeAgo from 'react-timeago';
 import { shallow } from 'zustand/shallow';
 import { cleanupEfficiency, Diff as TextDiff, makeDiff } from '@sanity/diff-match-patch';
 
-import { Avatar, Box, Button, CircularProgress, IconButton, ListDivider, ListItem, ListItemDecorator, MenuItem, Stack, Theme, Tooltip, Typography, useTheme } from '@mui/joy';
+import { Avatar, Box, Button, CircularProgress, IconButton, ListDivider, ListItem, ListItemDecorator, MenuItem, Stack, Theme, Tooltip, Typography, useTheme, RadioGroup, Radio} from '@mui/joy';
+import Chip from '@mui/joy/Chip';
+import CheckIcon from '@mui/icons-material/Check';
 import { SxProps } from '@mui/joy/styles/types';
 import ClearIcon from '@mui/icons-material/Clear';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -40,7 +42,7 @@ import { RenderMarkdown } from './RenderMarkdown';
 import { RenderText } from './RenderText';
 import { RenderTextDiff } from './RenderTextDiff';
 import { parseBlocks } from './blocks';
-
+import { useChatStore } from '~/common/state/store-chats';
 
 // Enable the hover button to copy the whole message. The Copy button is also available in Blocks, or in the Avatar Menu.
 const ENABLE_COPY_MESSAGE: boolean = false;
@@ -158,15 +160,18 @@ function explainErrorInMessage(text: string, isAssistant: boolean, modelId?: str
  */
 export function ChatMessage(props: { message: DMessage, diffText?: string, showDate?: boolean, isBottom?: boolean, noBottomBorder?: boolean, onMessageDelete?: () => void, onMessageEdit: (text: string) => void, onMessageRunFrom?: (offset: number) => void, onImagine?: (messageText: string) => void }) {
   const {
+    id: messageId,
     text: messageText,
     sender: messageSender,
     avatar: messageAvatar,
     typing: messageTyping,
     role: messageRole,
+    isRated: messageRateStatus,
     purposeId: messagePurposeId,
     originLLM: messageOriginLLM,
     created: messageCreated,
     updated: messageUpdated,
+    choices: messageChoices,
   } = props.message;
   const fromAssistant = messageRole === 'assistant';
   const fromSystem = messageRole === 'system';
@@ -253,11 +258,20 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
 
   const handleTextEdited = (editedText: string) => {
     setIsEditing(false);
-    if (editedText?.trim() && editedText !== messageText)
+    if (editedText?.trim() && editedText !== messageText){
       props.onMessageEdit(editedText);
+    }
   };
 
   const handleExpand = () => setForceExpanded(true);
+
+  const {activeConversationId, editMessage, getMessageAnswerId} = useChatStore(state => {
+    return {
+      activeConversationId: state.activeConversationId,
+      editMessage: state.editMessage,
+      getMessageAnswerId: state.getMessageAnswerId
+    };
+  }, shallow);
 
 
   // soft error handling
@@ -297,8 +311,9 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
       isCollapsed = true;
     }
   }
-
-
+  const [composeText, setComposeText] = React.useState('');
+  
+  const [selected, setSelected] = React.useState('');
   return (
     <ListItem
       // [alpha] Right-click menu: still in early development
@@ -349,7 +364,6 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
 
       {/* Edit / Blocks */}
       {!isEditing ? (
-
         <Box
           onDoubleClick={(e) => doubleClickToEdit ? handleMenuEdit(e) : null}
           sx={{
@@ -401,12 +415,61 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
           {/*  BlockAction*/}
           {/*</Chip>*/}
 
+          {/* Multiple choice button */}
+          {messageChoices?.length &&(
+          <RadioGroup
+            orientation="horizontal"
+            sx={{flexWrap: 'wrap', gap: 1.5, margin:1 }}
+          >
+            {messageChoices.map((choice) => {
+              const checked = selected === choice;
+              return (
+                <Chip
+                  key={choice}
+                  variant="plain"
+                  color={checked ? 'primary' : 'neutral'}
+                  startDecorator={
+                    checked && <CheckIcon sx={{ zIndex: 1, pointerEvents: 'none' }} />
+                  }
+                >
+                  <Radio
+                    variant="outlined"
+                    color={checked ? 'primary' : 'neutral'}
+                    disableIcon
+                    overlay
+                    label={choice}
+                    value={choice}
+                    checked={checked}
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        setSelected(choice);
+                        if(activeConversationId){
+                          if (!messageRateStatus){
+                            editMessage(activeConversationId, messageId, { isRated: true }, true)
+                            var textarea:HTMLElement = document.getElementById('textarea') as HTMLElement;
+                            if (textarea){
+                              textarea.innerText=choice;
+                            }
+                            let element:HTMLElement = document.getElementById('auto_trigger') as HTMLElement;
+                            element.click();
+                          }else{
+                            let updatedMessageId = getMessageAnswerId(activeConversationId, messageId);
+                            editMessage(activeConversationId, updatedMessageId, {text: choice}, true)
+                          }
+                        }
+                      }
+                    }}
+                  />
+                </Chip>
+              );
+            })}
+          </RadioGroup>)
+        }
+
         </Box>
 
       ) : (
-
         <InlineTextarea initialText={messageText} onEdit={handleTextEdited} sx={{ ...blockSx, lineHeight: 1.75, flexGrow: 1 }} />
-
       )}
 
 
