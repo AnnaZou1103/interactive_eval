@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { shallow } from 'zustand/shallow';
 
-import { Box, Button, ButtonGroup, Card, Grid, IconButton, Stack, Textarea, Tooltip, Typography, useTheme } from '@mui/joy';
+import { Box, Button, ButtonGroup, Card, Grid, IconButton, Stack, Textarea, Tooltip, Typography, useTheme, Alert } from '@mui/joy';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ColorPaletteProp, SxProps, VariantProp } from '@mui/joy/styles/types';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import CallIcon from '@mui/icons-material/Call';
@@ -40,7 +41,7 @@ import { TokenProgressbar } from './TokenProgressbar';
 import { useComposerStore } from './store-composer';
 import { v4 as uuidv4 } from 'uuid';
 import { defaultSystemPurposeId, SurveyQuestions} from '../../../../data';
-import { DConversation, DMessage} from '~/common/state/store-chats';
+import { DConversation} from '~/common/state/store-chats';
 
 /// Text template helpers
 
@@ -150,6 +151,7 @@ export function Composer(props: {
   const [isEvaluation, setIsEvaluation] = React.useState(false);
   const [evaluationIndex, setEvaluationIndex] = React.useState(1);
   const attachmentFileInputRef = React.useRef<HTMLInputElement>(null);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   // external state
   const theme = useTheme();
@@ -198,6 +200,13 @@ export function Composer(props: {
         setEvaluationIndex(evaluationIndex+1);
         const conversation = useChatStore.getState().conversations.find(c => c.id === props.conversationId);
         if (conversation){
+          let lastMessage = conversation.messages.slice(-1)[0];
+          if (lastMessage.choices?.length){
+            if (!Number(text) || Number(text)>lastMessage.choices?.length){
+              setErrorMessage('Please select a button or input an integer within the range as the evaluation score.');
+              return
+            }
+          }
           useChatStore.getState().setMessages(props.conversationId, [...conversation.messages, createDMessage('user', text)]);
           useChatStore.getState().appendMessage(props.conversationId, SurveyQuestions[evaluationIndex+1]);
         }
@@ -485,6 +494,20 @@ export function Composer(props: {
 
   return (
     <Box sx={props.sx}>
+        {errorMessage && <>
+        <Alert variant='soft' color='danger' sx={{ my: 1}}>
+          <Typography>{errorMessage}</Typography>
+          <Button
+          variant='solid' color='danger'
+          onClick={()=>setErrorMessage('')}
+          sx={{ mt: 0 }}
+        >
+          OK
+        </Button>
+        </Alert>
+      </>}
+
+      
       <Grid container spacing={{ xs: 1, md: 2 }}>
 
         {/* Button column and composer Text (mobile: top, desktop: left and center) */}
