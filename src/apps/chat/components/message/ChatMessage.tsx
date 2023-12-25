@@ -3,7 +3,7 @@ import TimeAgo from 'react-timeago';
 import { shallow } from 'zustand/shallow';
 import { cleanupEfficiency, Diff as TextDiff, makeDiff } from '@sanity/diff-match-patch';
 
-import { Avatar, Box, Button, CircularProgress, IconButton, ListDivider, ListItem, ListItemDecorator, MenuItem, Stack, Theme, Tooltip, Typography, useTheme, RadioGroup, Radio} from '@mui/joy';
+import { Avatar, Box, Button, CircularProgress, IconButton, ListDivider, ListItem, ListItemDecorator, MenuItem, Stack, Theme, Tooltip, Typography, useTheme, RadioGroup, Radio, Alert} from '@mui/joy';
 import Chip from '@mui/joy/Chip';
 import CheckIcon from '@mui/icons-material/Check';
 import { SxProps } from '@mui/joy/styles/types';
@@ -172,6 +172,7 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
     created: messageCreated,
     updated: messageUpdated,
     choices: messageChoices,
+    selected: messageSelected,
   } = props.message;
   const fromAssistant = messageRole === 'assistant';
   const fromSystem = messageRole === 'system';
@@ -186,6 +187,7 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
   const [isEditing, setIsEditing] = React.useState(false);
   const [isImagining, setIsImagining] = React.useState(false);
   const [isSpeaking, setIsSpeaking] = React.useState(false);
+  const [inputErrorMessage, setInputErrorMessage] = React.useState<string | null>(null);
 
   // external state
   const theme = useTheme();
@@ -258,18 +260,31 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
 
   const handleTextEdited = (editedText: string) => {
     setIsEditing(false);
-    if (editedText?.trim() && editedText !== messageText){
-      props.onMessageEdit(editedText);
+    if (editedText?.trim() && editedText !== messageText && !messageChoices){
+      if(activeConversationId && Number(messageText)){
+        if(Number(editedText)<=5){
+          let updatedMessageId = getPairedQuestionId(activeConversationId, messageId);
+          editMessage(activeConversationId, updatedMessageId, {selected: editedText}, true);
+          props.onMessageEdit(editedText);
+          setInputErrorMessage("");
+        }else{
+          setIsEditing(true);
+          setInputErrorMessage('Please select a button or input an integer within the range as the evaluation score.');
+        }
+      }else{
+        props.onMessageEdit(editedText);
+      }
     }
   };
 
   const handleExpand = () => setForceExpanded(true);
 
-  const {activeConversationId, editMessage, getMessageAnswerId} = useChatStore(state => {
+  const {activeConversationId, editMessage, getMessageAnswerId, getPairedQuestionId} = useChatStore(state => {
     return {
       activeConversationId: state.activeConversationId,
       editMessage: state.editMessage,
-      getMessageAnswerId: state.getMessageAnswerId
+      getMessageAnswerId: state.getMessageAnswerId,
+      getPairedQuestionId: state.getPairedQuestionId
     };
   }, shallow);
 
@@ -311,7 +326,6 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
       isCollapsed = true;
     }
   }
-  const [composeText, setComposeText] = React.useState('');
   
   const [selected, setSelected] = React.useState('');
   return (
@@ -422,7 +436,7 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
             sx={{flexWrap: 'wrap', gap: 1.5, margin:1 }}
           >
             {messageChoices.map((choice) => {
-              const checked = selected === choice;
+              const checked = messageSelected === choice;
               return (
                 <Chip
                   key={choice}
@@ -442,10 +456,9 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
                     checked={checked}
                     onChange={(event) => {
                       if (event.target.checked) {
-                        setSelected(choice);
                         if(activeConversationId){
                           if (!messageRateStatus){
-                            editMessage(activeConversationId, messageId, { isRated: true }, true)
+                            editMessage(activeConversationId, messageId, { isRated: true, selected: choice}, true)
                             var textarea:HTMLElement = document.getElementById('textarea') as HTMLElement;
                             if (textarea){
                               textarea.innerText=choice;
@@ -453,8 +466,10 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
                             let element:HTMLElement = document.getElementById('auto_trigger') as HTMLElement;
                             element.click();
                           }else{
-                            let updatedMessageId = getMessageAnswerId(activeConversationId, messageId);
-                            editMessage(activeConversationId, updatedMessageId, {text: choice}, true)
+                            let updatedAnswerId = getMessageAnswerId(activeConversationId, messageId);
+                            editMessage(activeConversationId, updatedAnswerId, {text: choice}, true)
+                            let updatedMessageId = getPairedQuestionId(activeConversationId, messageId);
+                            editMessage(activeConversationId, updatedMessageId, {selected: choice}, true)
                           }
                         }
                       }
@@ -469,7 +484,22 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
         </Box>
 
       ) : (
-        <InlineTextarea initialText={messageText} onEdit={handleTextEdited} sx={{ ...blockSx, lineHeight: 1.75, flexGrow: 1 }} />
+        <Box>
+          <InlineTextarea initialText={messageText} onEdit={handleTextEdited} sx={{ ...blockSx, lineHeight: 1.75, flexGrow: 1 }} />
+          {inputErrorMessage && <>
+            <Alert variant='soft' color='danger' sx={{ my: 1}}>
+            <Typography>{inputErrorMessage}</Typography>
+            <Button
+            variant='solid' color='danger'
+            onClick={()=>{setInputErrorMessage(null)}}
+            sx={{ mt: 0 }}
+            >
+            OK
+          </Button>
+          </Alert>
+          </>}
+        </Box>
+        
       )}
 
 

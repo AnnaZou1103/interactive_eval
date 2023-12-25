@@ -67,6 +67,7 @@ export interface DMessage {
   purposeId?: SystemPurposeId;      // only assistant/system
   originLLM?: string;               // only assistant - model that generated this message, goes beyond known models
   choices?: string[];
+  selected?: string;
 
   tokenCount: number;               // cache for token count, using the current Conversation model (0 = not yet calculated)
 
@@ -141,6 +142,7 @@ interface ChatActions {
   setAutoTitle: (conversationId: string, autoTitle: string) => void;
   setUserTitle: (conversationId: string, userTitle: string) => void;
   getMessageAnswerId: (conversationId: string, messageId: string) => string;
+  getPairedQuestionId: (conversationId: string, messageId: string) => string;
 
   appendEphemeral: (conversationId: string, devTool: DEphemeral) => void;
   deleteEphemeral: (conversationId: string, ephemeralId: string) => void;
@@ -311,6 +313,22 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
             if (message.id == messageId){
               let answer = conversation.messages[i+1];
               return answer.id;
+            }
+          }
+          return ''
+        }else{
+          return ''
+        }
+      },
+
+      getPairedQuestionId: (conversationId: string, messageId: string)=>{
+        const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
+        if (conversation){
+          for (let i=0; i<conversation.messages.length; i++){
+            let message = conversation.messages[i];
+            if (message.id == messageId){
+              let question = conversation.messages[i-1];
+              return question.id;
             }
           }
           return ''

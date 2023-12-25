@@ -2,7 +2,6 @@ import * as React from 'react';
 import { shallow } from 'zustand/shallow';
 
 import { Box, Button, ButtonGroup, Card, Grid, IconButton, Stack, Textarea, Tooltip, Typography, useTheme, Alert } from '@mui/joy';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ColorPaletteProp, SxProps, VariantProp } from '@mui/joy/styles/types';
 import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import CallIcon from '@mui/icons-material/Call';
@@ -499,7 +498,7 @@ export function Composer(props: {
           <Typography>{errorMessage}</Typography>
           <Button
           variant='solid' color='danger'
-          onClick={()=>setErrorMessage('')}
+          onClick={()=>setErrorMessage(null)}
           sx={{ mt: 0 }}
         >
           OK
