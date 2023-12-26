@@ -147,7 +147,6 @@ export function Composer(props: {
   const [reducerText, setReducerText] = React.useState('');
   const [reducerTextTokens, setReducerTextTokens] = React.useState(0);
   const [chatModeMenuAnchor, setChatModeMenuAnchor] = React.useState<HTMLAnchorElement | null>(null);
-  const [isEvaluation, setIsEvaluation] = React.useState(false);
   const [evaluationIndex, setEvaluationIndex] = React.useState(1);
   const attachmentFileInputRef = React.useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
@@ -170,6 +169,16 @@ export function Composer(props: {
     };
   }, shallow);
   const { chatLLMId, chatLLM } = useChatLLM();
+
+  const isEvaluation = useChatStore(state => {
+    if(props.conversationId){
+      const title = state.getConversationTitle(props.conversationId);
+      if(title.search('personality evaluation')!= -1){
+        return true;
+      }
+    }
+    return false;
+  })
 
   // Effect: load initial text if queued up (e.g. by /launch)
   React.useEffect(() => {
@@ -211,7 +220,7 @@ export function Composer(props: {
         }
       }else{
         setEvaluationIndex(1);
-        setIsEvaluation(false);
+        handleConversation();
         props.onSendMessage(props.conversationId, text);
       }
     }
@@ -425,54 +434,108 @@ export function Composer(props: {
   };
 
   const handleRateClicked=() => {
-    setIsEvaluation(!isEvaluation);
+    if (isEvaluation){
+      handleConversation();
+    }else{
+      handleEvaluation();
+    }
   };
 
-  React.useEffect(()=>{
+  const handleEvaluation=()=>{
     let element:HTMLElement = document.getElementById('rate_switch') as HTMLElement;
     let currentConversationId = useChatStore.getState().activeConversationId;
-    if (isEvaluation){
-      element.innerHTML = 'Back to Chat'
-      for (let i=0; i<SurveyQuestions.length; i++){
-        if (chatLLMId){
-          SurveyQuestions[i].originLLM = chatLLMId;
-          SurveyQuestions[i].tokenCount=countModelTokens(SurveyQuestions[i].text, chatLLMId, 'editMessage(typing=false)');
-        }
+    element.innerHTML = 'Back to Chat'
+    for (let i=0; i<SurveyQuestions.length; i++){
+      if (chatLLMId){
+        SurveyQuestions[i].originLLM = chatLLMId;
+        SurveyQuestions[i].tokenCount=countModelTokens(SurveyQuestions[i].text, chatLLMId, 'editMessage(typing=false)');
       }
+    }
 
-      let evaluationId = ''
-      if (currentConversationId){
-        evaluationId=useChatStore.getState().getPairedEvaluationId(currentConversationId)
+    let evaluationId = ''
+    if (currentConversationId){
+      evaluationId=useChatStore.getState().getPairedEvaluationId(currentConversationId)
+    }
+    
+    if (currentConversationId && evaluationId == ''){
+      let conversationTitle=useChatStore.getState().getConversationTitle(currentConversationId)
+      const questions: DConversation = {
+        id: uuidv4(),
+        messages: [SurveyQuestions[0],SurveyQuestions[1]],
+        systemPurposeId: defaultSystemPurposeId,
+        conversationId: currentConversationId? currentConversationId: undefined,
+        tokenCount: 0,
+        autoTitle: 'personality evaluation of "'+conversationTitle+'"',
+        created: Date.now(),
+        updated: Date.now(),
+        abortController: null,
+        ephemerals: [],
       }
-      if (currentConversationId && evaluationId == ''){
-        let conversationTitle=useChatStore.getState().getConversationTitle(currentConversationId)
-        const questions: DConversation = {
-          id: uuidv4(),
-          messages: [SurveyQuestions[0],SurveyQuestions[1]],
-          systemPurposeId: defaultSystemPurposeId,
-          conversationId: currentConversationId? currentConversationId: undefined,
-          tokenCount: 0,
-          autoTitle: 'personality evaluation of "'+conversationTitle+'"',
-          created: Date.now(),
-          updated: Date.now(),
-          abortController: null,
-          ephemerals: [],
-        }
-        useChatStore.getState().setPairedEvaluationId(currentConversationId, questions.id);
-        useChatStore.getState().importConversation(questions, false);
-      }else{
-        useChatStore.getState().setActiveConversationId(evaluationId);
-      }
+      console.log(questions.id)
+      useChatStore.getState().setPairedEvaluationId(currentConversationId, questions.id);
+      useChatStore.getState().importConversation(questions, false);
     }else{
-      element.innerHTML = 'Rate';
+      useChatStore.getState().setActiveConversationId(evaluationId);
+    }
+  }
+
+  const handleConversation=()=>{
+    let element:HTMLElement = document.getElementById('rate_switch') as HTMLElement;
+    let currentConversationId = useChatStore.getState().activeConversationId;
+    element.innerHTML = 'Rate';
       if (currentConversationId){
         let pairedConversationId = useChatStore.getState().getPairedConversationId(currentConversationId);
         if (pairedConversationId !=''){
           useChatStore.getState().setActiveConversationId(pairedConversationId);
         }
       }
-    }
-  }, [isEvaluation]);
+  }
+
+  // React.useEffect(()=>{
+  //   let element:HTMLElement = document.getElementById('rate_switch') as HTMLElement;
+  //   let currentConversationId = useChatStore.getState().activeConversationId;
+  //   if (isEvaluation){
+  //     element.innerHTML = 'Back to Chat'
+  //     for (let i=0; i<SurveyQuestions.length; i++){
+  //       if (chatLLMId){
+  //         SurveyQuestions[i].originLLM = chatLLMId;
+  //         SurveyQuestions[i].tokenCount=countModelTokens(SurveyQuestions[i].text, chatLLMId, 'editMessage(typing=false)');
+  //       }
+  //     }
+
+  //     let evaluationId = ''
+  //     if (currentConversationId){
+  //       evaluationId=useChatStore.getState().getPairedEvaluationId(currentConversationId)
+  //     }
+  //     if (currentConversationId && evaluationId == ''){
+  //       let conversationTitle=useChatStore.getState().getConversationTitle(currentConversationId)
+  //       const questions: DConversation = {
+  //         id: uuidv4(),
+  //         messages: [SurveyQuestions[0],SurveyQuestions[1]],
+  //         systemPurposeId: defaultSystemPurposeId,
+  //         conversationId: currentConversationId? currentConversationId: undefined,
+  //         tokenCount: 0,
+  //         autoTitle: 'personality evaluation of "'+conversationTitle+'"',
+  //         created: Date.now(),
+  //         updated: Date.now(),
+  //         abortController: null,
+  //         ephemerals: [],
+  //       }
+  //       useChatStore.getState().setPairedEvaluationId(currentConversationId, questions.id);
+  //       useChatStore.getState().importConversation(questions, false);
+  //     }else{
+  //       useChatStore.getState().setActiveConversationId(evaluationId);
+  //     }
+  //   }else{
+  //     element.innerHTML = 'Rate';
+  //     if (currentConversationId){
+  //       let pairedConversationId = useChatStore.getState().getPairedConversationId(currentConversationId);
+  //       if (pairedConversationId !=''){
+  //         useChatStore.getState().setActiveConversationId(pairedConversationId);
+  //       }
+  //     }
+  //   }
+  // }, [isEvaluation]);
 
   const isImmediate = chatModeId === 'immediate';
   const isWriteUser = chatModeId === 'write-user';
@@ -707,13 +770,22 @@ export function Composer(props: {
             </Box>
 
             <Box> 
-            <Button
+            {!isEvaluation && <Button
                   id="rate_switch"
                   fullWidth variant='soft' color={isReAct ? 'success' : 'primary'} 
                   onClick={handleRateClicked}
                 >
                   Rate
                 </Button>
+            }
+            {isEvaluation && <Button
+                  id="rate_switch"
+                  fullWidth variant='soft' color={isReAct ? 'success' : 'primary'} 
+                  onClick={handleRateClicked}
+                >
+                  Back to Chat
+                </Button>
+            }
             </Box>
 
           </Box>

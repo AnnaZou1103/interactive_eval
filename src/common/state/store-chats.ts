@@ -122,7 +122,7 @@ interface ChatActions {
   createConversation: () => void;
   duplicateConversation: (conversationId: string) => void;
   importConversation: (conversation: DConversation, preventClash: boolean) => void;
-  deleteConversation: (conversationId: string) => void;
+  deleteConversation: (conversationId: string, keepEvaluation: boolean) => void;
   deleteAllConversations: () => void;
   setActiveConversationId: (conversationId: string) => void;
   setPairedEvaluationId:(conversationId: string, evaluationId: string)=>void;
@@ -215,7 +215,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
             console.warn('Conversation ID clash, changing ID to', conversation.id);
           }
         }
-        get().deleteConversation(conversation.id);
+        get().deleteConversation(conversation.id, true);
         set(state => {
           conversation.tokenCount = updateTokenCounts(conversation.messages, true, 'importConversation');
           return {
@@ -229,7 +229,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
         });
       },
 
-      deleteConversation: (conversationId: string) =>
+      deleteConversation: (conversationId: string, keepEvaluation) =>
         set(state => {
 
           // abort any pending requests on this conversation
@@ -239,6 +239,12 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
 
           // remove from the list
           const conversations = state.conversations.filter((conversation: DConversation): boolean => conversation.id !== conversationId);
+          if (!keepEvaluation){
+            conversations.map(conversation => {
+              if(conversation.evaluationId == conversationId){
+                conversation.evaluationId='';
+              }});
+          }
 
           // update the active conversation to the next in list
           let activeConversationId = undefined;
@@ -274,8 +280,8 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
       set({ activeConversationId: conversationId }),
 
       setPairedEvaluationId: (conversationId: string, evaluationId: string) =>
-        get()._editConversation(conversationId, {
-          evaluationId,
+        get()._editConversation(conversationId, conversation => {
+          return{evaluationId: evaluationId, updated: Date.now()}
         }),
 
       getPairedConversationId:(conversationId: string)=>{
@@ -289,11 +295,13 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
 
       getPairedEvaluationId:(conversationId: string)=>{
         const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
-        if (conversation && conversation.evaluationId){
-          return conversation.evaluationId;
-        }else{
-          return ''
-        }
+        console.log(conversation);
+        return conversation && conversation.evaluationId?conversation.evaluationId:''
+        // if (conversation && conversation.evaluationId){
+        //   return conversation.evaluationId;
+        // }else{
+        //   return ''
+        // }
       },
 
       getConversationTitle:(conversationId: string)=>{

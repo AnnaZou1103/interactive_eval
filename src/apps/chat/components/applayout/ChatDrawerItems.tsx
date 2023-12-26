@@ -62,7 +62,7 @@ export function ChatDrawerItems(props: {
 
   const handleConversationDelete = React.useCallback((conversationId: string) => {
     if (!singleChat && conversationId)
-      deleteConversation(conversationId);
+      deleteConversation(conversationId, false);
   }, [deleteConversation, singleChat]);
 
   // grouping

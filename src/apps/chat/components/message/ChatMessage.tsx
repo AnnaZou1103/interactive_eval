@@ -172,7 +172,6 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
     created: messageCreated,
     updated: messageUpdated,
     choices: messageChoices,
-    selected: messageSelected,
   } = props.message;
   const fromAssistant = messageRole === 'assistant';
   const fromSystem = messageRole === 'system';
@@ -436,7 +435,7 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
             sx={{flexWrap: 'wrap', gap: 1.5, margin:1 }}
           >
             {messageChoices.map((choice) => {
-              const checked = messageSelected === choice;
+              const checked = props.message.selected === choice;
               return (
                 <Chip
                   key={choice}
@@ -468,8 +467,7 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
                           }else{
                             let updatedAnswerId = getMessageAnswerId(activeConversationId, messageId);
                             editMessage(activeConversationId, updatedAnswerId, {text: choice}, true)
-                            let updatedMessageId = getPairedQuestionId(activeConversationId, messageId);
-                            editMessage(activeConversationId, updatedMessageId, {selected: choice}, true)
+                            editMessage(activeConversationId,  messageId, {selected: choice}, true)
                           }
                         }
                       }
