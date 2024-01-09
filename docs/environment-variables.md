@@ -17,8 +17,8 @@ The following is an example `.env` for copy-paste convenience:
 
 ```bash
 # Database
-POSTGRES_PRISMA_URL=
-POSTGRES_URL_NON_POOLING=
+MONGODB_PRISMA_URL=
+MONGODB_URL_NON_POOLING=
 
 # LLMs
 OPENAI_API_KEY=

@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-import { LinkStorageDataType, LinkStorageVisibility } from '@prisma/client';
+import { LinkStorageDataType, LinkStorageVisibility } from '@prisma/client/edge';
 
-import { db } from '~/server/db';
+import { prisma } from '~/server/db';
 import { publicProcedure } from '~/server/api/trpc.server';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -85,7 +85,7 @@ export const storagePutProcedure =
 
       const { ownerId, dataType, dataTitle, dataObject, expiresSeconds } = input;
 
-      const { id: objectId, ...rest } = await db.linkStorage.create({
+      const { id: objectId, ...rest } = await prisma.linkStorage.create({
         select: {
           id: true,
           ownerId: true,
@@ -127,7 +127,7 @@ export const storageGetProcedure =
     .query(async ({ input: { objectId, ownerId } }) => {
 
       // read object
-      const result = await db.linkStorage.findUnique({
+      const result = await prisma.linkStorage.findUnique({
         select: {
           dataType: true,
           dataTitle: true,
@@ -162,7 +162,7 @@ export const storageGetProcedure =
       // increment the read count
       // NOTE: fire-and-forget; we don't care about the result
       {
-        db.linkStorage.update({
+        prisma.linkStorage.update({
           select: {
             id: true,
           },
@@ -198,7 +198,7 @@ export const storageMarkAsDeletedProcedure =
     .output(storageDeleteOutputSchema)
     .mutation(async ({ input: { objectId, ownerId, deletionKey } }) => {
 
-      const result = await db.linkStorage.updateMany({
+      const result = await prisma.linkStorage.updateMany({
         where: {
           id: objectId,
           ownerId: ownerId || undefined,

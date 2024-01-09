@@ -2,7 +2,7 @@
 let nextConfig = {
   reactStrictMode: true,
   env: {
-    HAS_SERVER_DB_PRISMA: !!process.env.POSTGRES_PRISMA_URL && !!process.env.POSTGRES_URL_NON_POOLING,
+    HAS_SERVER_DB_PRISMA: !!process.env.MONGODB_PRISMA_URL && !!process.env.MONGODB_URL_NON_POOLING,
     HAS_SERVER_KEYS_GOOGLE_CSE: !!process.env.GOOGLE_CLOUD_API_KEY && !!process.env.GOOGLE_CSE_ID,
     HAS_SERVER_KEY_ANTHROPIC: !!process.env.ANTHROPIC_API_KEY,
     HAS_SERVER_KEY_AZURE_OPENAI: !!process.env.AZURE_OPENAI_API_KEY && !!process.env.AZURE_OPENAI_API_ENDPOINT,

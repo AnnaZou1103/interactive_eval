@@ -1,30 +1,18 @@
-// Prisma is the ORM for server-side (API) access to the database
-//
-// This file defines the schema for the database.
-//  - make sure to run 'prisma generate' after making changes to this file
-//  - make sure to run 'prisma db push' to sync the remote database with the schema
-//
-// Database is optional: when the environment variables are not set, the database is not used at all,
-// and the storage of data in Big-AGI is limited to client-side (browser) storage.
-//
-// The database is used for:
-//  - the 'sharing' function, to let users share the chats with each other
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider = "mongodb"
+  url       = env("MONGODB_PRISMA_URL") // uses connection pooling
+  directUrl = env("MONGODB_URL_NON_POOLING") // uses a direct connection
 }
 
 //
 // Storage of Linked Data
 //
 model LinkStorage {
-  id String @id @default(uuid())
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   ownerId    String
   visibility LinkStorageVisibility
@@ -60,4 +48,32 @@ enum LinkStorageVisibility {
 
 enum LinkStorageDataType {
   CHAT_V1
+}
+
+type QuestionairesMessages {
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  avatar     Json?
+  choices    String[]
+  created    BigInt
+  id         String
+  isRated    Boolean
+  originLLM  String?
+  purposeId  String?
+  role       String
+  selected   String?
+  sender     String
+  text       String
+  tokenCount Int
+  typing     Boolean
+  updated    BigInt?
+}
+
+model Questionaires {
+  id              String                  @id @default(auto()) @map("_id") @db.ObjectId
+  autoTitle       String
+  conversationId  String
+  created         BigInt
+  messages        QuestionairesMessages[]
+  systemPurposeId String
+  updated         BigInt
 }
