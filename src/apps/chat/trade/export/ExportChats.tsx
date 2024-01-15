@@ -66,40 +66,40 @@ export function ExportChats(props: { config: ExportConfig, onClose: () => void }
 
   // chat link
 
-  const handleChatLinkCreate = () => setChatLinkConfirmId(props.config.conversationId);
+  // const handleChatLinkCreate = () => setChatLinkConfirmId(props.config.conversationId);
 
-  const handleChatLinkConfirmed = async () => {
-    if (!chatLinkConfirmId) return;
+  // const handleChatLinkConfirmed = async () => {
+  //   if (!chatLinkConfirmId) return;
 
-    const conversation = findConversation(chatLinkConfirmId);
-    setChatLinkConfirmId(null);
-    if (!conversation) return;
+  //   const conversation = findConversation(chatLinkConfirmId);
+  //   setChatLinkConfirmId(null);
+  //   if (!conversation) return;
 
-    setChatLinkUploading(true);
-    try {
-      const chatV1 = conversationToJsonV1(conversation);
-      const chatTitle = conversationTitle(conversation) || undefined;
-      const response: StoragePutSchema = await apiAsyncNode.trade.storagePut.mutate({
-        ownerId: linkStorageOwnerId,
-        dataType: 'CHAT_V1',
-        dataTitle: chatTitle,
-        dataObject: chatV1,
-      });
-      setChatLinkResponse(response);
-      if (response.type === 'success') {
-        addChatLinkItem(chatTitle, response.objectId, response.createdAt, response.expiresAt, response.deletionKey);
-        if (!linkStorageOwnerId)
-          setLinkStorageOwnerId(response.ownerId);
-      }
-      clearChatLinkBadge();
-    } catch (error: any) {
-      setChatLinkResponse({
-        type: 'error',
-        error: error?.message ?? error?.toString() ?? 'unknown error',
-      });
-    }
-    setChatLinkUploading(false);
-  };
+  //   setChatLinkUploading(true);
+  //   try {
+  //     const chatV1 = conversationToJsonV1(conversation);
+  //     const chatTitle = conversationTitle(conversation) || undefined;
+  //     const response: StoragePutSchema = await apiAsyncNode.trade.storagePut.mutate({
+  //       ownerId: linkStorageOwnerId,
+  //       dataType: 'CHAT_V1',
+  //       dataTitle: chatTitle,
+  //       dataObject: chatV1,
+  //     });
+  //     setChatLinkResponse(response);
+  //     if (response.type === 'success') {
+  //       addChatLinkItem(chatTitle, response.objectId, response.createdAt, response.expiresAt, response.deletionKey);
+  //       if (!linkStorageOwnerId)
+  //         setLinkStorageOwnerId(response.ownerId);
+  //     }
+  //     clearChatLinkBadge();
+  //   } catch (error: any) {
+  //     setChatLinkResponse({
+  //       type: 'error',
+  //       error: error?.message ?? error?.toString() ?? 'unknown error',
+  //     });
+  //   }
+  //   setChatLinkUploading(false);
+  // };
 
 
   // publish
@@ -212,7 +212,7 @@ export function ExportChats(props: { config: ExportConfig, onClose: () => void }
 
 
     {/* [chat link] confirmation */}
-    {ENABLE_SHARING && !!chatLinkConfirmId && (
+    {/* {ENABLE_SHARING && !!chatLinkConfirmId && (
       <ConfirmationModal
         open onClose={() => setChatLinkConfirmId(null)} onPositive={handleChatLinkConfirmed}
         title='Upload Confirmation'
@@ -224,7 +224,7 @@ export function ExportChats(props: { config: ExportConfig, onClose: () => void }
           Do you wish to continue?
         </>} positiveActionText={'Yes, Create Link'}
       />
-    )}
+    )} */}
 
     {/* [chat link] response */}
     {ENABLE_SHARING && !!chatLinkResponse && (
