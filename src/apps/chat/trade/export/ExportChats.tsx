@@ -164,7 +164,7 @@ export function ExportChats(props: { config: ExportConfig, onClose: () => void }
         Share or download this conversation
       </Typography>
 
-      {ENABLE_SHARING && (
+      {/* {ENABLE_SHARING && (
         <Badge color='danger' invisible={!chatLinkBadge}>
           <Button variant='soft' disabled={!hasConversation || chatLinkUploading}
                   loading={chatLinkUploading}
@@ -175,7 +175,7 @@ export function ExportChats(props: { config: ExportConfig, onClose: () => void }
             Share on {Brand.Title.Base}
           </Button>
         </Badge>
-      )}
+      )} */}
 
       <Button variant='soft' disabled={!hasConversation || publishUploading}
               loading={publishUploading}

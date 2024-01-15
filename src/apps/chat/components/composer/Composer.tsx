@@ -14,6 +14,7 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 import SendIcon from '@mui/icons-material/Send';
 import StopOutlinedIcon from '@mui/icons-material/StopOutlined';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 
 import { APP_CALL_ENABLED } from '../../../call/AppCall';
 
@@ -28,7 +29,7 @@ import { hideOnDesktop, hideOnMobile } from '~/common/theme';
 import { htmlTableToMarkdown } from '~/common/util/htmlTableToMarkdown';
 import { launchAppCall } from '~/common/routes';
 import { pdfToText } from '~/common/util/pdfToText';
-import { useChatStore,createDMessage} from '~/common/state/store-chats';
+import { useChatStore,createDMessage, conversationTitle} from '~/common/state/store-chats';
 import { useGlobalShortcut } from '~/common/components/useGlobalShortcut';
 import { useUIPreferencesStore, useUIStateStore } from '~/common/state/store-ui';
 
@@ -41,6 +42,10 @@ import { useComposerStore } from './store-composer';
 import { v4 as uuidv4 } from 'uuid';
 import { defaultSystemPurposeId, SurveyQuestions} from '../../../../data';
 import { DConversation} from '~/common/state/store-chats';
+import { conversationToJsonV1 } from '../../trade/trade.client';
+import { apiAsyncNode } from '~/common/util/trpc.client';
+import { StoragePutSchema } from '../../trade/server/trade.router';
+import { addChatLinkItem } from '../../trade/store-sharing';
 
 /// Text template helpers
 
@@ -150,6 +155,8 @@ export function Composer(props: {
   const [evaluationIndex, setEvaluationIndex] = React.useState(1);
   const attachmentFileInputRef = React.useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const [chatLinkUploading, setChatLinkUploading] = React.useState(false);
+  const [chatLinkResponse, setChatLinkResponse] = React.useState<StoragePutSchema | null>(null);
 
   // external state
   const theme = useTheme();
@@ -204,6 +211,7 @@ export function Composer(props: {
 
     if ((text.length) && props.conversationId) {
       setComposeText('');
+      setChatLinkResponse(null);
       if (isEvaluation && evaluationIndex<SurveyQuestions.length-1){
         setEvaluationIndex(evaluationIndex+1);
         const conversation = useChatStore.getState().conversations.find(c => c.id === props.conversationId);
@@ -433,6 +441,41 @@ export function Composer(props: {
     console.log('Unhandled Drop event. Contents: ', e.dataTransfer.types.map(t => `${t}: ${e.dataTransfer.getData(t)}`));
   };
 
+  function findConversation(conversationId: string) {
+    return conversationId ? useChatStore.getState().conversations.find(c => c.id === conversationId) ?? null : null;
+  }
+
+  const handleSaveClicked = async () => {
+    let currentConversationId = useChatStore.getState().activeConversationId;
+    if (!currentConversationId) return;
+
+    const conversation = findConversation(currentConversationId);
+    if (!conversation) return;
+
+    setChatLinkUploading(true);
+    try {
+      const chatV1 = conversationToJsonV1(conversation);
+      const chatTitle = conversationTitle(conversation) || undefined;
+      const response: StoragePutSchema = await apiAsyncNode.trade.storagePut.mutate({
+        ownerId: currentConversationId,
+        dataType: 'CHAT_V1',
+        dataTitle: chatTitle,
+        dataObject: chatV1,
+        expiresSeconds: 0
+      });
+      setChatLinkResponse(response);
+      if (response.type === 'success') {
+        addChatLinkItem(chatTitle, response.objectId, response.createdAt, response.expiresAt, response.deletionKey);
+      }
+    } catch (error: any) {
+      setChatLinkResponse({
+        type: 'error',
+        error: error?.message ?? error?.toString() ?? 'unknown error',
+      });
+    }
+    setChatLinkUploading(false);
+  };
+
   const handleRateClicked=() => {
     if (isEvaluation){
       handleConversation();
@@ -490,52 +533,6 @@ export function Composer(props: {
         }
       }
   }
-
-  // React.useEffect(()=>{
-  //   let element:HTMLElement = document.getElementById('rate_switch') as HTMLElement;
-  //   let currentConversationId = useChatStore.getState().activeConversationId;
-  //   if (isEvaluation){
-  //     element.innerHTML = 'Back to Chat'
-  //     for (let i=0; i<SurveyQuestions.length; i++){
-  //       if (chatLLMId){
-  //         SurveyQuestions[i].originLLM = chatLLMId;
-  //         SurveyQuestions[i].tokenCount=countModelTokens(SurveyQuestions[i].text, chatLLMId, 'editMessage(typing=false)');
-  //       }
-  //     }
-
-  //     let evaluationId = ''
-  //     if (currentConversationId){
-  //       evaluationId=useChatStore.getState().getPairedEvaluationId(currentConversationId)
-  //     }
-  //     if (currentConversationId && evaluationId == ''){
-  //       let conversationTitle=useChatStore.getState().getConversationTitle(currentConversationId)
-  //       const questions: DConversation = {
-  //         id: uuidv4(),
-  //         messages: [SurveyQuestions[0],SurveyQuestions[1]],
-  //         systemPurposeId: defaultSystemPurposeId,
-  //         conversationId: currentConversationId? currentConversationId: undefined,
-  //         tokenCount: 0,
-  //         autoTitle: 'personality evaluation of "'+conversationTitle+'"',
-  //         created: Date.now(),
-  //         updated: Date.now(),
-  //         abortController: null,
-  //         ephemerals: [],
-  //       }
-  //       useChatStore.getState().setPairedEvaluationId(currentConversationId, questions.id);
-  //       useChatStore.getState().importConversation(questions, false);
-  //     }else{
-  //       useChatStore.getState().setActiveConversationId(evaluationId);
-  //     }
-  //   }else{
-  //     element.innerHTML = 'Rate';
-  //     if (currentConversationId){
-  //       let pairedConversationId = useChatStore.getState().getPairedConversationId(currentConversationId);
-  //       if (pairedConversationId !=''){
-  //         useChatStore.getState().setActiveConversationId(pairedConversationId);
-  //       }
-  //     }
-  //   }
-  // }, [isEvaluation]);
 
   const isImmediate = chatModeId === 'immediate';
   const isWriteUser = chatModeId === 'write-user';
@@ -767,12 +764,11 @@ export function Composer(props: {
               {APP_CALL_ENABLED && isChat && <CallButtonDesktop disabled={!props.conversationId || !chatLLM} onClick={handleCallClicked} />}
 
               {(isDraw || isDrawPlus) && <DrawOptionsButtonDesktop onClick={handleDrawOptionsClicked} />}
-            </Box>
-
-            <Box> 
-            {!isEvaluation && <Button
+              {!isEvaluation && <Button
                   id="rate_switch"
                   fullWidth variant='soft' color={isReAct ? 'success' : 'primary'} 
+                  endDecorator={<RateReviewOutlinedIcon />}
+                  disabled={!props.conversationId || !chatLLM}
                   onClick={handleRateClicked}
                 >
                   Rate
@@ -781,11 +777,22 @@ export function Composer(props: {
             {isEvaluation && <Button
                   id="rate_switch"
                   fullWidth variant='soft' color={isReAct ? 'success' : 'primary'} 
+                  disabled={!props.conversationId || !chatLLM}
                   onClick={handleRateClicked}
                 >
                   Back to Chat
                 </Button>
             }
+
+            <Button
+                  fullWidth variant='soft' 
+                  color={chatLinkResponse?.type === 'success'? 'success' : 'primary'}
+                  disabled={!props.conversationId || !chatLLM}
+                  loading={chatLinkUploading}
+                  onClick={handleSaveClicked}
+                >
+                {chatLinkResponse?.type ? 'Saved to Database' : 'Save to Database'}
+                </Button>
             </Box>
 
           </Box>

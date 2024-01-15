@@ -18,7 +18,7 @@ const dataSchema = z.object({}).passthrough();
 
 
 const storagePutInputSchema = z.object({
-  ownerId: z.string().optional(),
+  ownerId: z.string(),
   dataType: dataTypesSchema,
   dataTitle: z.string().optional(),
   dataObject: dataSchema,
@@ -83,36 +83,58 @@ export const storagePutProcedure =
     .output(storagePutOutputSchema)
     .mutation(async ({ input }) => {
 
-      const { ownerId, dataType, dataTitle, dataObject, expiresSeconds } = input;
+      const { ownerId, dataType, dataTitle, dataObject, expiresSeconds} = input;
 
-      const { id: objectId, ...rest } = await prisma.linkStorage.create({
-        select: {
-          id: true,
-          ownerId: true,
-          createdAt: true,
-          expiresAt: true,
-          deletionKey: true,
+      const record = await prisma.linkStorage.findUnique({
+        where: {
+          ownerId: ownerId,
         },
-        data: {
-          ownerId: ownerId || uuidv4(),
-          visibility: LinkStorageVisibility.UNLISTED,
-          dataType,
-          dataTitle,
-          dataSize: JSON.stringify(dataObject).length, // data size estimate
-          data: dataObject,
-          expiresAt: expiresSeconds === 0
-            ? undefined // never expires
-            : new Date(Date.now() + 1000 * (expiresSeconds || DEFAULT_EXPIRES_SECONDS)), // default
-          deletionKey: uuidv4(),
-          isDeleted: false,
-        },
-      });
+      })
 
-      return {
-        type: 'success',
-        objectId,
-        ...rest,
-      };
+      if(record == null){
+        const { id: objectId, ...rest } = await prisma.linkStorage.create({
+          select: {
+            id: true,
+            ownerId: true,
+            createdAt: true,
+            expiresAt: true,
+            deletionKey: true,
+          },
+          data: {
+            ownerId: ownerId || uuidv4(),
+            visibility: LinkStorageVisibility.UNLISTED,
+            dataType,
+            dataTitle,
+            dataSize: JSON.stringify(dataObject).length, // data size estimate
+            data: dataObject,
+            expiresAt: expiresSeconds === 0
+              ? undefined // never expires
+              : new Date(Date.now() + 1000 * (expiresSeconds || DEFAULT_EXPIRES_SECONDS)), // default
+            deletionKey: uuidv4(),
+            isDeleted: false,
+          },
+        });
+
+        return {
+          type: 'success',
+          objectId,
+          ...rest,
+        };
+      }else{
+        let { id: objectId, ...rest } = await prisma.linkStorage.update({
+          where: {
+            ownerId: ownerId,
+          },
+          data: {
+            data: dataObject,
+          },
+        });
+        return {
+          type: 'success',
+          objectId,
+          ...rest,
+        };
+      }
 
     });
 

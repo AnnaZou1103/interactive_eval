@@ -39,5 +39,8 @@ next-env.d.ts
 # other
 .idea/
 
-#mongodbplayground
+# mongodbplayground
 *.mongodb.js
+
+# output files
+/output

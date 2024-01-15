@@ -14,7 +14,7 @@ datasource db {
 model LinkStorage {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  ownerId    String
+  ownerId    String @unique
   visibility LinkStorageVisibility
 
   dataType  LinkStorageDataType
@@ -48,32 +48,4 @@ enum LinkStorageVisibility {
 
 enum LinkStorageDataType {
   CHAT_V1
-}
-
-type QuestionairesMessages {
-  /// Could not determine type: the field only had null or empty values in the sample set.
-  avatar     Json?
-  choices    String[]
-  created    BigInt
-  id         String
-  isRated    Boolean
-  originLLM  String?
-  purposeId  String?
-  role       String
-  selected   String?
-  sender     String
-  text       String
-  tokenCount Int
-  typing     Boolean
-  updated    BigInt?
-}
-
-model Questionaires {
-  id              String                  @id @default(auto()) @map("_id") @db.ObjectId
-  autoTitle       String
-  conversationId  String
-  created         BigInt
-  messages        QuestionairesMessages[]
-  systemPurposeId String
-  updated         BigInt
 }
