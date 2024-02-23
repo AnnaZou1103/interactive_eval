@@ -223,7 +223,7 @@ export function Composer(props: {
               return
             }
           }
-          useChatStore.getState().setMessages(props.conversationId, [...conversation.messages, createDMessage('user', text)]);
+          // useChatStore.getState().setMessages(props.conversationId, [...conversation.messages, createDMessage('user', text)]);
           useChatStore.getState().appendMessage(props.conversationId, SurveyQuestions[evaluationIndex+1]);
         }
       }else{

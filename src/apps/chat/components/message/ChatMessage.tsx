@@ -465,8 +465,8 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
                             let element:HTMLElement = document.getElementById('auto_trigger') as HTMLElement;
                             element.click();
                           }else{
-                            let updatedAnswerId = getMessageAnswerId(activeConversationId, messageId);
-                            editMessage(activeConversationId, updatedAnswerId, {text: choice}, true)
+                            // let updatedAnswerId = getMessageAnswerId(activeConversationId, messageId);
+                            // editMessage(activeConversationId, updatedAnswerId, {text: choice}, true)
                             editMessage(activeConversationId,  messageId, {selected: choice}, true)
                           }
                         }
