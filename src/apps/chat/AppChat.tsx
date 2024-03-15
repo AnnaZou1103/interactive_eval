@@ -24,6 +24,7 @@ import { runAssistantUpdatingState } from './editors/chat-stream';
 import { runImageGenerationUpdatingState } from './editors/image-generate';
 import { runReActUpdatingState } from './editors/react-tangent';
 
+
 const SPECIAL_ID_ALL_CHATS = 'all-chats';
 
 
@@ -197,7 +198,7 @@ export function AppChat() {
   );
 
   useLayoutPluggable(centerItems, drawerItems, menuItems);
-  
+
   return <>
 
     <ChatMessageList
