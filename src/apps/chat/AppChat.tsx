@@ -23,7 +23,8 @@ import { TradeConfig, TradeModal } from './trade/TradeModal';
 import { runAssistantUpdatingState } from './editors/chat-stream';
 import { runImageGenerationUpdatingState } from './editors/image-generate';
 import { runReActUpdatingState } from './editors/react-tangent';
-
+import { Allotment } from "allotment";
+import "allotment/dist/style.css";
 
 const SPECIAL_ID_ALL_CHATS = 'all-chats';
 
@@ -38,12 +39,13 @@ export function AppChat() {
   const [flattenConversationId, setFlattenConversationId] = React.useState<string | null>(null);
 
   // external state
-  const { activeConversationId, isConversationEmpty, hasAnyContent, duplicateConversation, deleteAllConversations, setMessages, systemPurposeId, setAutoTitle } = useChatStore(state => {
+  const { activeConversationId, activeEvaluationId, isConversationEmpty, hasAnyContent, duplicateConversation, deleteAllConversations, setMessages, systemPurposeId, setAutoTitle } = useChatStore(state => {
     const conversation = state.conversations.find(conversation => conversation.id === state.activeConversationId);
     const isConversationEmpty = conversation ? !conversation.messages.length : true;
     const hasAnyContent = state.conversations.length > 1 || !isConversationEmpty;
     return {
       activeConversationId: state.activeConversationId,
+      activeEvaluationId: state.activeEvaluationId,
       isConversationEmpty,
       hasAnyContent,
       duplicateConversation: state.duplicateConversation,
@@ -198,9 +200,10 @@ export function AppChat() {
   );
 
   useLayoutPluggable(centerItems, drawerItems, menuItems);
-
+  
   return <>
-
+    <Allotment css={{backgroundColor: '#EAEEF6'}}>
+    <div style={{overflow: 'auto', height:'100%', width: '100%'}}>
     <ChatMessageList
       conversationId={activeConversationId}
       isMessageSelectionMode={isMessageSelectionMode} setIsMessageSelectionMode={setIsMessageSelectionMode}
@@ -209,18 +212,39 @@ export function AppChat() {
       sx={{
         flexGrow: 1,
         backgroundColor: 'background.level1',
-        overflowY: 'auto', // overflowY: 'hidden'
+        overflowY: 'auto', 
+        // overflowY: 'hidden'
         minHeight: 96,
       }} />
+      </div>
 
-    <Ephemerals
+      {activeEvaluationId &&(
+         <div style={{overflow: 'auto', height:'100%', width: '100%'}}>
+          <ChatMessageList
+          conversationId={activeEvaluationId}
+          isMessageSelectionMode={isMessageSelectionMode} setIsMessageSelectionMode={setIsMessageSelectionMode}
+          onExecuteChatHistory={handleExecuteChatHistory}
+          onImagineFromText={handleImagineFromText}
+          sx={{
+            flexGrow: 1,
+            backgroundColor: 'background.level1',
+            overflowY: 'auto', 
+            // overflowY: 'hidden'
+            minHeight: 96,
+          }} />
+          </div>
+        )
+      }
+    </Allotment>
+
+    {/* <Ephemerals
       conversationId={activeConversationId}
       sx={{
         // flexGrow: 0.1,
         flexShrink: 0.5,
         overflowY: 'auto',
         minHeight: 64,
-      }} />
+      }} /> */}
 
     <Composer
       conversationId={activeConversationId} messageId={null}

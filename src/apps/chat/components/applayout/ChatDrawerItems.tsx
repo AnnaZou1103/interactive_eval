@@ -27,7 +27,7 @@ export function ChatDrawerItems(props: {
 
   // external state
   const { conversationIDs, topNewConversationId, maxChatMessages, setActiveConversationId, createConversation, deleteConversation } = useChatStore(state => ({
-    conversationIDs: state.conversations.map(conversation => conversation.id),
+    conversationIDs: state.conversations.filter(state.isConversation).map(conversation => conversation.id),
     topNewConversationId: state.conversations.length ? state.conversations[0].messages.length === 0 ? state.conversations[0].id : null : null,
     maxChatMessages: state.conversations.reduce((longest, conversation) => Math.max(longest, conversation.messages.length), 0),
     setActiveConversationId: state.setActiveConversationId,
@@ -62,7 +62,7 @@ export function ChatDrawerItems(props: {
 
   const handleConversationDelete = React.useCallback((conversationId: string) => {
     if (!singleChat && conversationId)
-      deleteConversation(conversationId, false);
+      deleteConversation(conversationId);
   }, [deleteConversation, singleChat]);
 
   // grouping

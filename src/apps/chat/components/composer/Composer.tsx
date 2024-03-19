@@ -29,7 +29,7 @@ import { hideOnDesktop, hideOnMobile } from '~/common/theme';
 import { htmlTableToMarkdown } from '~/common/util/htmlTableToMarkdown';
 import { launchAppCall } from '~/common/routes';
 import { pdfToText } from '~/common/util/pdfToText';
-import { useChatStore,createDMessage, conversationTitle} from '~/common/state/store-chats';
+import { useChatStore,createDMessage, createDEvaluation, conversationTitle} from '~/common/state/store-chats';
 import { useGlobalShortcut } from '~/common/components/useGlobalShortcut';
 import { useUIPreferencesStore, useUIStateStore } from '~/common/state/store-ui';
 
@@ -178,13 +178,7 @@ export function Composer(props: {
   const { chatLLMId, chatLLM } = useChatLLM();
 
   const isEvaluation = useChatStore(state => {
-    if(props.conversationId){
-      const title = state.getConversationTitle(props.conversationId);
-      if(title.search('personality evaluation')!= -1){
-        return true;
-      }
-    }
-    return false;
+    return state.activeEvaluationId!=null;
   })
 
   // Effect: load initial text if queued up (e.g. by /launch)
@@ -212,25 +206,7 @@ export function Composer(props: {
     if ((text.length) && props.conversationId) {
       setComposeText('');
       setChatLinkResponse(null);
-      if (isEvaluation && evaluationIndex<SurveyQuestions.length-1){
-        setEvaluationIndex(evaluationIndex+1);
-        const conversation = useChatStore.getState().conversations.find(c => c.id === props.conversationId);
-        if (conversation){
-          let lastMessage = conversation.messages.slice(-1)[0];
-          if (lastMessage.choices?.length){
-            if (!Number(text) || Number(text)>lastMessage.choices?.length){
-              setErrorMessage('Please select a button or input an integer within the range as the evaluation score.');
-              return
-            }
-          }
-          useChatStore.getState().setMessages(props.conversationId, [...conversation.messages, createDMessage('user', text)]);
-          useChatStore.getState().appendMessage(props.conversationId, SurveyQuestions[evaluationIndex+1]);
-        }
-      }else{
-        setEvaluationIndex(1);
-        handleConversation();
-        props.onSendMessage(props.conversationId, text);
-      }
+      props.onSendMessage(props.conversationId, text);
     }
   };
 
@@ -445,11 +421,8 @@ export function Composer(props: {
     return conversationId ? useChatStore.getState().conversations.find(c => c.id === conversationId) ?? null : null;
   }
 
-  const handleSaveClicked = async () => {
-    let currentConversationId = useChatStore.getState().activeConversationId;
-    if (!currentConversationId) return;
-
-    const conversation = findConversation(currentConversationId);
+  async function saveConversation(conversationId: string){
+    const conversation = findConversation(conversationId);
     if (!conversation) return;
 
     setChatLinkUploading(true);
@@ -457,7 +430,7 @@ export function Composer(props: {
       const chatV1 = conversationToJsonV1(conversation);
       const chatTitle = conversationTitle(conversation) || undefined;
       const response: StoragePutSchema = await apiAsyncNode.trade.storagePut.mutate({
-        ownerId: currentConversationId,
+        ownerId: conversationId,
         dataType: 'CHAT_V1',
         dataTitle: chatTitle,
         dataObject: chatV1,
@@ -476,63 +449,35 @@ export function Composer(props: {
     setChatLinkUploading(false);
   };
 
-  const handleRateClicked=() => {
-    if (isEvaluation){
-      handleConversation();
-    }else{
-      handleEvaluation();
-    }
+  const handleSaveClicked = async () => {
+    let currentConversationId = useChatStore.getState().activeConversationId;
+    if (!currentConversationId) return;
+    saveConversation(currentConversationId)
+    let currentEvaluationId = useChatStore.getState().activeEvaluationId;
+    if (!currentEvaluationId) return;
+    saveConversation(currentEvaluationId)
   };
 
-  const handleEvaluation=()=>{
-    let element:HTMLElement = document.getElementById('rate_switch') as HTMLElement;
-    let currentConversationId = useChatStore.getState().activeConversationId;
-    element.innerHTML = 'Back to Chat'
-    for (let i=0; i<SurveyQuestions.length; i++){
-      if (chatLLMId){
-        SurveyQuestions[i].originLLM = chatLLMId;
-        SurveyQuestions[i].tokenCount=countModelTokens(SurveyQuestions[i].text, chatLLMId, 'editMessage(typing=false)');
-      }
-    }
-
-    let evaluationId = ''
-    if (currentConversationId){
-      evaluationId=useChatStore.getState().getPairedEvaluationId(currentConversationId)
-    }
-    
-    if (currentConversationId && evaluationId == ''){
-      let conversationTitle=useChatStore.getState().getConversationTitle(currentConversationId)
-      const questions: DConversation = {
-        id: uuidv4(),
-        messages: [SurveyQuestions[0],SurveyQuestions[1]],
-        systemPurposeId: defaultSystemPurposeId,
-        conversationId: currentConversationId? currentConversationId: undefined,
-        tokenCount: 0,
-        autoTitle: 'personality evaluation of "'+conversationTitle+'"',
-        created: Date.now(),
-        updated: Date.now(),
-        abortController: null,
-        ephemerals: [],
-      }
-      console.log(questions.id)
-      useChatStore.getState().setPairedEvaluationId(currentConversationId, questions.id);
-      useChatStore.getState().importConversation(questions, false);
+  const handleRateClicked=() => {
+    if (isEvaluation){
+      useChatStore.getState().setActiveEvaluationId(null);
     }else{
-      useChatStore.getState().setActiveConversationId(evaluationId);
-    }
-  }
+      const activeConversationId=useChatStore.getState().activeConversationId;
+      if (activeConversationId){
+        const activeConversation=useChatStore.getState().conversations.find((conversation: DConversation): boolean => conversation.id === activeConversationId);
+        if (activeConversation?.messages.length==0){
+          useChatStore.getState().setActiveEvaluationId(null);
+          return
+        }
 
-  const handleConversation=()=>{
-    let element:HTMLElement = document.getElementById('rate_switch') as HTMLElement;
-    let currentConversationId = useChatStore.getState().activeConversationId;
-    element.innerHTML = 'Rate';
-      if (currentConversationId){
-        let pairedConversationId = useChatStore.getState().getPairedConversationId(currentConversationId);
-        if (pairedConversationId !=''){
-          useChatStore.getState().setActiveConversationId(pairedConversationId);
+        if (activeConversation?.evaluationId == undefined){
+          useChatStore.getState().createEvaluation();
+        }else{
+          useChatStore.getState().setActiveEvaluationId(activeConversation?.evaluationId);
         }
       }
-  }
+    }
+  };
 
   const isImmediate = chatModeId === 'immediate';
   const isWriteUser = chatModeId === 'write-user';
@@ -746,13 +691,13 @@ export function Composer(props: {
                       id="auto_trigger"
                       fullWidth variant={isWriteUser ? 'soft' : 'solid'} color={isReAct ? 'success' : (isFollowUp || isDraw || isDrawPlus) ? 'warning' : 'primary'} disabled={!props.conversationId || !chatLLM}
                       onClick={handleSendClicked}
-                      endDecorator={isWriteUser ? <SendIcon sx={{ fontSize: 18 }} /> : isReAct ? <PsychologyIcon /> : <TelegramIcon />}
+                      endDecorator={<SendIcon sx={{ fontSize: 18 }} />}
                     >
                       {isWriteUser ? 'Write' : isFollowUp ? 'Chat+' : isReAct ? 'ReAct' : isDraw ? 'Draw' : isDrawPlus ? 'Draw+' : 'Chat'}
                     </Button>
-                    <IconButton disabled={!props.conversationId || !chatLLM || !!chatModeMenuAnchor} onClick={handleToggleChatMode}>
+                    {/* <IconButton disabled={!props.conversationId || !chatLLM || !!chatModeMenuAnchor} onClick={handleToggleChatMode}>
                       <ExpandLessIcon />
-                    </IconButton>
+                    </IconButton> */}
                   </ButtonGroup>
                 )}
             </Box>
@@ -764,7 +709,7 @@ export function Composer(props: {
               {APP_CALL_ENABLED && isChat && <CallButtonDesktop disabled={!props.conversationId || !chatLLM} onClick={handleCallClicked} />}
 
               {(isDraw || isDrawPlus) && <DrawOptionsButtonDesktop onClick={handleDrawOptionsClicked} />}
-              {!isEvaluation && <Button
+            {!isEvaluation && <Button
                   id="rate_switch"
                   fullWidth variant='soft' color={isReAct ? 'success' : 'primary'} 
                   endDecorator={<RateReviewOutlinedIcon />}
@@ -780,7 +725,7 @@ export function Composer(props: {
                   disabled={!props.conversationId || !chatLLM}
                   onClick={handleRateClicked}
                 >
-                  Back to Chat
+                  Hide Rate
                 </Button>
             }
 
@@ -800,13 +745,13 @@ export function Composer(props: {
 
 
         {/* Mode selector */}
-        {!!chatModeMenuAnchor && (
+        {/* {!!chatModeMenuAnchor && (
           <ChatModeMenu
             anchorEl={chatModeMenuAnchor} onClose={handleHideChatMode}
             experimental={experimentalLabs}
             chatModeId={chatModeId} onSetChatModeId={handleSetChatModeId}
           />
-        )}
+        )} */}
 
         {/* Content reducer modal */}
         {reducerText?.length >= 1 &&

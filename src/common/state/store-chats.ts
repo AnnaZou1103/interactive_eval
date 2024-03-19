@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { DLLMId, useModelsStore } from '~/modules/llms/store-llms';
 
 import { countModelTokens } from '../util/token-counter';
-import { defaultSystemPurposeId, SystemPurposeId } from '../../data';
+import { defaultSystemPurposeId, SystemPurposeId, SurveyQuestions } from '../../data';
 import { IDB_MIGRATION_INITIAL, idbStateStorage } from '../util/idbUtils';
 
 
@@ -36,6 +36,20 @@ export function createDConversation(systemPurposeId?: SystemPurposeId): DConvers
     id: uuidv4(),
     messages: [],
     systemPurposeId: systemPurposeId || defaultSystemPurposeId,
+    tokenCount: 0,
+    created: Date.now(),
+    updated: Date.now(),
+    abortController: null,
+    ephemerals: [],
+  };
+}
+
+export function createDEvaluation(conversationId: string, systemPurposeId?: SystemPurposeId): DConversation {
+  return {
+    id: uuidv4(),
+    messages: [SurveyQuestions[0],SurveyQuestions[1]],
+    systemPurposeId: systemPurposeId || defaultSystemPurposeId,
+    conversationId: conversationId,
     tokenCount: 0,
     created: Date.now(),
     updated: Date.now(),
@@ -115,20 +129,20 @@ export function createDEphemeral(title: string, initialText: string): DEphemeral
 interface ChatState {
   conversations: DConversation[];
   activeConversationId: string | null;
+  activeEvaluationId: string | null;
 }
 
 interface ChatActions {
   // store setters
   createConversation: () => void;
+  createEvaluation: () => void;
   duplicateConversation: (conversationId: string) => void;
   importConversation: (conversation: DConversation, preventClash: boolean) => void;
-  deleteConversation: (conversationId: string, keepEvaluation: boolean) => void;
+  deleteConversation: (conversationId: string) => void;
   deleteAllConversations: () => void;
   setActiveConversationId: (conversationId: string) => void;
+  setActiveEvaluationId: (conversationId: string|null) => void;
   setPairedEvaluationId:(conversationId: string, evaluationId: string)=>void;
-  getPairedConversationId:(conversationId: string)=>string;
-  getPairedEvaluationId:(conversationId: string)=>string;
-  getConversationTitle:(conversationId: string)=>string;
 
 
   // within a conversation
@@ -141,8 +155,8 @@ interface ChatActions {
   setSystemPurposeId: (conversationId: string, systemPurposeId: SystemPurposeId) => void;
   setAutoTitle: (conversationId: string, autoTitle: string) => void;
   setUserTitle: (conversationId: string, userTitle: string) => void;
-  getMessageAnswerId: (conversationId: string, messageId: string) => string;
   getPairedQuestionId: (conversationId: string, messageId: string) => string;
+  isConversation: (conversation: DConversation)=>boolean;
 
   appendEphemeral: (conversationId: string, devTool: DEphemeral) => void;
   deleteEphemeral: (conversationId: string, ephemeralId: string) => void;
@@ -160,6 +174,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
       // default state
       conversations: defaultConversations,
       activeConversationId: defaultConversations[0].id,
+      activeEvaluationId: null,
 
 
       createConversation: () =>
@@ -167,13 +182,35 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
           // inherit some values from the active conversation (matches users' expectations)
           const activeConversation = state.conversations.find((conversation: DConversation): boolean => conversation.id === state.activeConversationId);
           const conversation = createDConversation(activeConversation?.systemPurposeId);
+
           return {
             conversations: [
               conversation,
               ...state.conversations,
             ],
             activeConversationId: conversation.id,
+            activeEvaluationId: null,
           };
+        }),
+
+      createEvaluation: () =>
+        set(state => {
+          // inherit some values from the active conversation (matches users' expectations)
+          const activeConversation = state.conversations.find((conversation: DConversation): boolean => conversation.id === state.activeConversationId);
+          if (activeConversation){
+            const evaluation = createDEvaluation(activeConversation.id,activeConversation.systemPurposeId);
+            state.setPairedEvaluationId(activeConversation.id, evaluation.id);
+            return {
+              conversations: [
+                evaluation,
+                ...state.conversations,
+              ],
+              activeConversationId: state.activeConversationId,
+              activeEvaluationId: evaluation.id,
+            };
+          }else{
+            return {}
+          }
         }),
 
       duplicateConversation: (conversationId: string) =>
@@ -192,6 +229,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
               id: uuidv4(),
               typing: false,
             })),
+            evaluationId: undefined,
             updated: Date.now(),
             abortController: null,
             ephemerals: [],
@@ -203,6 +241,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
               ...state.conversations,
             ],
             activeConversationId: duplicate.id,
+            activeEvaluationId: null,
           };
         }),
 
@@ -215,7 +254,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
             console.warn('Conversation ID clash, changing ID to', conversation.id);
           }
         }
-        get().deleteConversation(conversation.id, true);
+        get().deleteConversation(conversation.id);
         set(state => {
           conversation.tokenCount = updateTokenCounts(conversation.messages, true, 'importConversation');
           return {
@@ -229,33 +268,34 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
         });
       },
 
-      deleteConversation: (conversationId: string, keepEvaluation) =>
+      deleteConversation: (conversationId: string) =>
         set(state => {
 
           // abort any pending requests on this conversation
-          const cIndex = state.conversations.findIndex((conversation: DConversation): boolean => conversation.id === conversationId);
+          const filtered_conversations = state.conversations.filter((conversation: DConversation): boolean => conversation.conversationId == undefined);
+          const cIndex = filtered_conversations.findIndex((conversation: DConversation): boolean => conversation.id === conversationId);
           if (cIndex >= 0)
-            state.conversations[cIndex].abortController?.abort();
+            filtered_conversations[cIndex].abortController?.abort();
 
           // remove from the list
-          const conversations = state.conversations.filter((conversation: DConversation): boolean => conversation.id !== conversationId);
-          if (!keepEvaluation){
-            conversations.map(conversation => {
-              if(conversation.evaluationId == conversationId){
-                conversation.evaluationId='';
-              }});
-          }
+          const conversations = state.conversations.filter((conversation: DConversation): boolean => conversation.id !== conversationId && conversation.conversationId !== conversationId);
 
           // update the active conversation to the next in list
           let activeConversationId = undefined;
-          if (state.activeConversationId === conversationId && cIndex >= 0)
-            activeConversationId = conversations.length
-              ? conversations[cIndex < conversations.length ? cIndex : conversations.length - 1].id
-              : null;
+          if (state.activeConversationId === conversationId && cIndex >= 0){
+            if (cIndex<filtered_conversations.length-1){
+              activeConversationId = filtered_conversations[cIndex+1].id;
+            }else{
+              activeConversationId = filtered_conversations[cIndex-1].id;
+            }
+          }else{
+            activeConversationId = null;
+          }
 
           return {
             conversations,
             ...(activeConversationId !== undefined ? { activeConversationId } : {}),
+            activeEvaluationId: null,
           };
         }),
 
@@ -264,6 +304,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
           // inherit some values from the active conversation (matches users' expectations)
           const activeConversation = state.conversations.find((conversation: DConversation): boolean => conversation.id === state.activeConversationId);
           const conversation = createDConversation(activeConversation?.systemPurposeId);
+          // const evaluation = createEvaluation(conversation.id,conversation.systemPurposeId);
 
           // abort any pending requests on all conversations
           state.conversations.forEach((conversation: DConversation) => conversation.abortController?.abort());
@@ -272,62 +313,29 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
           return {
             conversations: [conversation],
             activeConversationId: conversation.id,
+            activeEvaluationId: null,
           };
         });
+      },
+
+      isConversation:(conversation: DConversation)=>{
+        return conversation.conversationId == undefined;
       },
 
       setActiveConversationId: (conversationId: string) =>        
       set({ activeConversationId: conversationId }),
 
+      setActiveEvaluationId: (conversationId: string|null) =>        
+      set({ activeEvaluationId: conversationId }),
+
       setPairedEvaluationId: (conversationId: string, evaluationId: string) =>
-        get()._editConversation(conversationId, conversation => {
-          return{evaluationId: evaluationId, updated: Date.now()}
-        }),
-
-      getPairedConversationId:(conversationId: string)=>{
-        const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
-        if (conversation && conversation.conversationId){
-          return conversation.conversationId;
-        }else{
-          return ''
-        }
-      },
-
-      getPairedEvaluationId:(conversationId: string)=>{
-        const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
-        console.log(conversation);
-        return conversation && conversation.evaluationId?conversation.evaluationId:''
-        // if (conversation && conversation.evaluationId){
-        //   return conversation.evaluationId;
-        // }else{
-        //   return ''
-        // }
-      },
-
-      getConversationTitle:(conversationId: string)=>{
-        const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
-        if (conversation && (conversation.userTitle || conversation.autoTitle)){
-          return conversation.userTitle || conversation.autoTitle || '';
-        }else{
-          return ''
-        }
-      },
-
-      getMessageAnswerId: (conversationId: string, messageId: string)=>{
-        const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
-        if (conversation){
-          for (let i=0; i<conversation.messages.length; i++){
-            let message = conversation.messages[i];
-            if (message.id == messageId){
-              let answer = conversation.messages[i+1];
-              return answer.id;
-            }
+        get()._editConversation(conversationId, convesation=>{
+          convesation.evaluationId=evaluationId;
+          return {
+            evaluationId: evaluationId, updated: Date.now()
           }
-          return ''
-        }else{
-          return ''
         }
-      },
+          ),
 
       getPairedQuestionId: (conversationId: string, messageId: string)=>{
         const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);

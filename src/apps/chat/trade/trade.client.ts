@@ -71,8 +71,9 @@ export function createConversationFromJsonV1(part: ExportedConversationJsonV1 & 
  */
 export async function downloadAllConversationsJson() {
   // conversations and
+  const filtered_conversation = useChatStore.getState().conversations.filter((conversation: DConversation): boolean => conversation.conversationId == undefined);
   const payload: ExportedAllJsonV1 = {
-    conversations: useChatStore.getState().conversations.map(conversationToJsonV1),
+    conversations: filtered_conversation.map(conversationToJsonV1),
     models: { sources: useModelsStore.getState().sources },
   };
   const json = JSON.stringify(payload);

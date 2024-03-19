@@ -12,9 +12,9 @@ import { setLayoutMenuAnchor } from './store-applayout';
 
 // routes for the quick switcher menu item
 
-type ContainedAppType = 'chat' | /*'data' |*/ 'news';
+type ContainedAppType = 'chat';
 
-const AppItems: ContainedAppType[] = ['chat', 'news'];
+const AppItems: ContainedAppType[] = ['chat'];
 
 const AppRouteMap: { [key in ContainedAppType]: { name: string, route: string } } = {
   'chat': {
@@ -25,10 +25,10 @@ const AppRouteMap: { [key in ContainedAppType]: { name: string, route: string } 
   //   name: 'Data',
   //   route: '/data',
   // },
-  'news': {
-    name: 'News',
-    route: '/news',
-  },
+  // 'news': {
+  //   name: 'News',
+  //   route: '/news',
+  // },
 };
 
 
@@ -86,7 +86,7 @@ export function AppBarSwitcherItem() {
           gap: 0,
         }}
       >
-        <BringTheLove text='Discord' icon={<DiscordIcon />} link={Brand.URIs.SupportInvite} />
+        {/* <BringTheLove text='Discord' icon={<DiscordIcon />} link={Brand.URIs.SupportInvite} /> */}
         <BringTheLove text='GitHub' icon={<GitHubIcon />} link={Brand.URIs.OpenRepo} />
       </ButtonGroup>
 

@@ -28,7 +28,7 @@ import { DMessage } from '~/common/state/store-chats';
 import { InlineError } from '~/common/components/InlineError';
 import { InlineTextarea } from '~/common/components/InlineTextarea';
 import { Link } from '~/common/components/Link';
-import { SystemPurposeId, SystemPurposes } from '../../../../data';
+import { SystemPurposeId, SystemPurposes,SurveyQuestions} from '../../../../data';
 import { copyToClipboard } from '~/common/util/copyToClipboard';
 import { cssRainbowColorKeyframes } from '~/common/theme';
 import { prettyBaseModel } from '~/common/util/modelUtils';
@@ -42,7 +42,7 @@ import { RenderMarkdown } from './RenderMarkdown';
 import { RenderText } from './RenderText';
 import { RenderTextDiff } from './RenderTextDiff';
 import { parseBlocks } from './blocks';
-import { useChatStore } from '~/common/state/store-chats';
+import { useChatStore,createDMessage} from '~/common/state/store-chats';
 
 // Enable the hover button to copy the whole message. The Copy button is also available in Blocks, or in the Avatar Menu.
 const ENABLE_COPY_MESSAGE: boolean = false;
@@ -278,11 +278,11 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
 
   const handleExpand = () => setForceExpanded(true);
 
-  const {activeConversationId, editMessage, getMessageAnswerId, getPairedQuestionId} = useChatStore(state => {
+  const {activeConversationId, activeEvaluationId, editMessage, getPairedQuestionId} = useChatStore(state => {
     return {
       activeConversationId: state.activeConversationId,
+      activeEvaluationId: state.activeEvaluationId,
       editMessage: state.editMessage,
-      getMessageAnswerId: state.getMessageAnswerId,
       getPairedQuestionId: state.getPairedQuestionId
     };
   }, shallow);
@@ -455,19 +455,16 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
                     checked={checked}
                     onChange={(event) => {
                       if (event.target.checked) {
-                        if(activeConversationId){
+                        if(activeEvaluationId){
                           if (!messageRateStatus){
-                            editMessage(activeConversationId, messageId, { isRated: true, selected: choice}, true)
-                            var textarea:HTMLElement = document.getElementById('textarea') as HTMLElement;
-                            if (textarea){
-                              textarea.innerText=choice;
+                            editMessage(activeEvaluationId, messageId, { isRated: true, selected: choice}, true)
+                            const conversation = useChatStore.getState().conversations.find(c => c.id === activeEvaluationId);
+                            const index = conversation?.messages.length;
+                            if (index && index<SurveyQuestions.length){
+                              useChatStore.getState().appendMessage(activeEvaluationId, SurveyQuestions[index]);
                             }
-                            let element:HTMLElement = document.getElementById('auto_trigger') as HTMLElement;
-                            element.click();
                           }else{
-                            let updatedAnswerId = getMessageAnswerId(activeConversationId, messageId);
-                            editMessage(activeConversationId, updatedAnswerId, {text: choice}, true)
-                            editMessage(activeConversationId,  messageId, {selected: choice}, true)
+                            editMessage(activeEvaluationId,  messageId, {selected: choice}, true)
                           }
                         }
                       }
