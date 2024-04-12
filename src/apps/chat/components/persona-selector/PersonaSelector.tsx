@@ -40,9 +40,9 @@ const getRandomElement = <T, >(array: T[]): T | undefined =>
  */
 export function PersonaSelector(props: { conversationId: string, runExample: (example: string) => void }) {
   // state
-  const selectedPersona = getRandomElement(ChatBotType);
+  const selectedPersona = ChatBotType[Math.floor(Math.random() * ChatBotType.length)];
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [filteredIDs, setFilteredIDs] = selectedPersona?React.useState<SystemPurposeId[] | null>([selectedPersona,'Generic', 'Custom']):React.useState<SystemPurposeId[] | null>(['Generic', 'Custom']);
+  const [filteredIDs, setFilteredIDs] = React.useState<SystemPurposeId[] | null>([selectedPersona,'Generic', 'Custom']);
   const [editMode, setEditMode] = React.useState(false);
 
   // external state
