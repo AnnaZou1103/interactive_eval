@@ -11,7 +11,7 @@ import { Link } from '~/common/components/Link';
 import { useChatStore } from '~/common/state/store-chats';
 import { useUIPreferencesStore } from '~/common/state/store-ui';
 
-import { SystemPurposeId, SystemPurposes } from '../../../../data';
+import { SystemPurposeId, SystemPurposes, ChatBotType} from '../../../../data';
 import { usePurposeStore } from './store-purposes';
 
 
@@ -40,8 +40,9 @@ const getRandomElement = <T, >(array: T[]): T | undefined =>
  */
 export function PersonaSelector(props: { conversationId: string, runExample: (example: string) => void }) {
   // state
+  const selectedPersona = getRandomElement(ChatBotType);
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [filteredIDs, setFilteredIDs] = React.useState<SystemPurposeId[] | null>(null);
+  const [filteredIDs, setFilteredIDs] = selectedPersona?React.useState<SystemPurposeId[] | null>([selectedPersona,'Generic', 'Custom']):React.useState<SystemPurposeId[] | null>(['Generic', 'Custom']);
   const [editMode, setEditMode] = React.useState(false);
 
   // external state
@@ -111,7 +112,7 @@ export function PersonaSelector(props: { conversationId: string, runExample: (ex
 
 
   // we show them all if the filter is clear (null)
-  const unfilteredPurposeIDs = (filteredIDs && showFinder) ? filteredIDs : Object.keys(SystemPurposes);
+  const unfilteredPurposeIDs = filteredIDs ? filteredIDs : Object.keys(SystemPurposes);
   const purposeIDs = editMode ? unfilteredPurposeIDs : unfilteredPurposeIDs.filter(id => !hiddenPurposeIDs.includes(id));
 
   const selectedPurpose = purposeIDs.length ? (SystemPurposes[systemPurposeId] ?? null) : null;

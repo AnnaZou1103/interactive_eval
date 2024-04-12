@@ -74,13 +74,13 @@ export function ChatMenuItems(props: {
     {/*  </Typography>*/}
     {/*</ListItem>*/}
 
-    <MenuItem onClick={handleSystemMessagesToggle}>
+    {/* <MenuItem onClick={handleSystemMessagesToggle}>
       <ListItemDecorator><SettingsSuggestIcon /></ListItemDecorator>
       System message
       <Switch checked={showSystemMessages} onChange={handleSystemMessagesToggle} sx={{ ml: 'auto' }} />
     </MenuItem>
 
-    <ListDivider inset='startContent' />
+    <ListDivider inset='startContent' /> */}
 
     <MenuItem disabled={disabled} onClick={handleConversationDuplicate}>
       <ListItemDecorator>
