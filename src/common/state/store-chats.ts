@@ -142,7 +142,6 @@ interface ChatActions {
   deleteAllConversations: () => void;
   setActiveConversationId: (conversationId: string) => void;
   setActiveEvaluationId: (conversationId: string|null) => void;
-  setPairedEvaluationId:(conversationId: string, evaluationId: string)=>void;
 
 
   // within a conversation
@@ -157,6 +156,8 @@ interface ChatActions {
   setUserTitle: (conversationId: string, userTitle: string) => void;
   getPairedQuestionId: (conversationId: string, messageId: string) => string;
   isConversation: (conversation: DConversation)=>boolean;
+  setPairedEvaluationId:(conversationId: string, evaluationId: string)=>void;
+  getPairedEvaluationId:(conversationId: string) => string;
 
   appendEphemeral: (conversationId: string, devTool: DEphemeral) => void;
   deleteEphemeral: (conversationId: string, ephemeralId: string) => void;
@@ -348,6 +349,15 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
             }
           }
           return ''
+        }else{
+          return ''
+        }
+      },
+
+      getPairedEvaluationId: (conversationId: string)=>{
+        const conversation = get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
+        if (conversation && conversation.evaluationId){
+          return conversation.evaluationId
         }else{
           return ''
         }

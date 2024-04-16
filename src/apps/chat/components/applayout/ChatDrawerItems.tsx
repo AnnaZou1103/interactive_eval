@@ -26,11 +26,13 @@ export function ChatDrawerItems(props: {
   const [grouping] = React.useState<ListGrouping>('off');
 
   // external state
-  const { conversationIDs, topNewConversationId, maxChatMessages, setActiveConversationId, createConversation, deleteConversation } = useChatStore(state => ({
+  const { conversationIDs, topNewConversationId, maxChatMessages, setActiveConversationId, setActiveEvaluationId, getPairedEvaluationId, createConversation, deleteConversation } = useChatStore(state => ({
     conversationIDs: state.conversations.filter(state.isConversation).map(conversation => conversation.id),
     topNewConversationId: state.conversations.length ? state.conversations[0].messages.length === 0 ? state.conversations[0].id : null : null,
     maxChatMessages: state.conversations.reduce((longest, conversation) => Math.max(longest, conversation.messages.length), 0),
     setActiveConversationId: state.setActiveConversationId,
+    setActiveEvaluationId: state.setActiveEvaluationId,
+    getPairedEvaluationId: state.getPairedEvaluationId,
     createConversation: state.createConversation,
     deleteConversation: state.deleteConversation,
   }), shallow);
@@ -56,6 +58,12 @@ export function ChatDrawerItems(props: {
 
   const handleConversationActivate = React.useCallback((conversationId: string, closeMenu: boolean) => {
     setActiveConversationId(conversationId);
+    const pairedEvluationId = getPairedEvaluationId(conversationId);
+    if (pairedEvluationId!=''){
+      setActiveEvaluationId(pairedEvluationId);
+    }else{
+      setActiveEvaluationId(null);
+    }
     if (closeMenu)
       closeLayoutDrawerMenu();
   }, [setActiveConversationId]);

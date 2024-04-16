@@ -42,7 +42,7 @@ export function PersonaSelector(props: { conversationId: string, runExample: (ex
   // state
   const selectedPersona = ChatBotType[Math.floor(Math.random() * ChatBotType.length)];
   const [searchQuery, setSearchQuery] = React.useState('');
-  const [filteredIDs, setFilteredIDs] = React.useState<SystemPurposeId[] | null>([selectedPersona,'Generic', 'Custom']);
+  const [filteredIDs, setFilteredIDs] = React.useState<SystemPurposeId[] | null>([selectedPersona]);
   const [editMode, setEditMode] = React.useState(false);
 
   // external state
@@ -147,9 +147,9 @@ export function PersonaSelector(props: { conversationId: string, runExample: (ex
           <Typography level='title-sm'>
             AI Persona
           </Typography>
-          <Button variant='plain' color='neutral' size='sm' onClick={toggleEditMode}>
+          {/* <Button variant='plain' color='neutral' size='sm' onClick={toggleEditMode}>
             {editMode ? 'Done' : 'Edit'}
-          </Button>
+          </Button> */}
         </Box>
 
         <Grid container spacing={tileSpacing} sx={{ justifyContent: 'flex-start' }}>
