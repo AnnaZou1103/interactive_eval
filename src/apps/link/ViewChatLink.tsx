@@ -27,7 +27,7 @@ export function ViewChatLink(props: { conversation: DConversation, storedAt: Dat
 
   // derived state
   const messages = props.conversation.messages;
-  const filteredMessages = messages.filter(m => m.role !== 'system' || showSystemMessages);
+  const filteredMessages = messages.filter(m => m.role !== 'system');
   const hasMessages = filteredMessages.length > 0;
 
 

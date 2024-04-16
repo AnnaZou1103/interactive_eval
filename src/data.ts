@@ -189,7 +189,7 @@ export const SurveyQuestions: DMessage[] =
     created: Date.now(),
     updated: null,
   },{id: uuidv4(),
-    text:'7. The chatbot tends to Wnd fault with others.',
+    text:'7. The chatbot tends to find fault with others.',
     sender: 'Bot',
     avatar: null,
     typing: false,

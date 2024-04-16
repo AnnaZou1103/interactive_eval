@@ -39,7 +39,7 @@ export function AppChat() {
   const [flattenConversationId, setFlattenConversationId] = React.useState<string | null>(null);
 
   // external state
-  const { activeConversationId, activeEvaluationId, isConversationEmpty, hasAnyContent, duplicateConversation, deleteAllConversations, setMessages, systemPurposeId, setAutoTitle } = useChatStore(state => {
+  const { activeConversationId, activeEvaluationId, isConversationEmpty, hasAnyContent, duplicateConversation, deleteAllConversations, setMessages, systemPurposeId, setAutoTitle, setActiveEvaluationId } = useChatStore(state => {
     const conversation = state.conversations.find(conversation => conversation.id === state.activeConversationId);
     const isConversationEmpty = conversation ? !conversation.messages.length : true;
     const hasAnyContent = state.conversations.length > 1 || !isConversationEmpty;
@@ -53,6 +53,7 @@ export function AppChat() {
       setMessages: state.setMessages,
       systemPurposeId: conversation?.systemPurposeId ?? null,
       setAutoTitle: state.setAutoTitle,
+      setActiveEvaluationId: state.setActiveEvaluationId,
     };
   }, shallow);
 
@@ -141,7 +142,10 @@ export function AppChat() {
   };
 
 
-  const handleClearConversation = (conversationId: string) => setClearConfirmationId(conversationId);
+  const handleClearConversation = (conversationId: string) => {
+    setClearConfirmationId(conversationId);
+    setActiveEvaluationId(null);
+  }
 
   const handleConfirmedClearConversation = () => {
     if (clearConfirmationId) {

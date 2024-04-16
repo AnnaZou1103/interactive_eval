@@ -32,7 +32,7 @@ export function AppChatLinkMenuItems() {
 
   return <>
 
-    <MenuItem onClick={() => setShowSystemMessages(!showSystemMessages)} sx={{ justifyContent: 'space-between' }}>
+    {/* <MenuItem onClick={() => setShowSystemMessages(!showSystemMessages)} sx={{ justifyContent: 'space-between' }}>
       <Typography>
         System message
       </Typography>
@@ -41,7 +41,7 @@ export function AppChatLinkMenuItems() {
         // endDecorator={showSystemMessages ? 'On' : 'Off'}
         slotProps={{ endDecorator: { sx: { minWidth: 26 } } }}
       />
-    </MenuItem>
+    </MenuItem> */}
 
     <MenuItem onClick={() => setRenderMarkdown(!renderMarkdown)} sx={{ justifyContent: 'space-between' }}>
       <Typography>

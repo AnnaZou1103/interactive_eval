@@ -92,7 +92,7 @@ export function ChatMessageList(props: {
 
   // hide system messages if the user chooses so
   // NOTE: reverse is because we'll use flexDirection: 'column-reverse' to auto-snap-to-bottom
-  const filteredMessages = messages.filter(m => m.role !== 'system' || showSystemMessages).reverse();
+  const filteredMessages = messages.filter(m => m.role !== 'system').reverse();
 
   // when there are no messages, show the purpose selector
   if (!filteredMessages.length)

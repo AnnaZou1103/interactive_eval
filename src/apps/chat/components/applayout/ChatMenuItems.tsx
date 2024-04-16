@@ -118,10 +118,10 @@ export function ChatMenuItems(props: {
       Share / Export ...
     </MenuItem>
 
-    <MenuItem disabled={disabled} onClick={handleConversationClear}>
+    {/* <MenuItem disabled={disabled} onClick={handleConversationClear}>
       <ListItemDecorator><ClearIcon /></ListItemDecorator>
       Reset
-    </MenuItem>
+    </MenuItem> */}
 
   </>;
 }
