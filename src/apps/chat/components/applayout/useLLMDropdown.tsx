@@ -43,21 +43,21 @@ function AppBarLLMDropdown(props: {
       items={llmItems}
       value={props.llmId} onChange={handleChatLLMChange}
       placeholder={props.placeholder || 'Models …'}
-      appendOption={<>
+      // appendOption={<>
 
-        {props.llmId && (
-          <ListItemButton key='menu-opt' onClick={handleOpenLLMOptions}>
-            <ListItemDecorator><SettingsIcon color='success' /></ListItemDecorator>
-            Options
-          </ListItemButton>
-        )}
+      //   {props.llmId && (
+      //     <ListItemButton key='menu-opt' onClick={handleOpenLLMOptions}>
+      //       <ListItemDecorator><SettingsIcon color='success' /></ListItemDecorator>
+      //       Options
+      //     </ListItemButton>
+      //   )}
 
-        <ListItemButton key='menu-llms' onClick={handleOpenModelsSetup}>
-          <ListItemDecorator><BuildCircleIcon color='success' /></ListItemDecorator>
-          Models
-        </ListItemButton>
+      //   <ListItemButton key='menu-llms' onClick={handleOpenModelsSetup}>
+      //     <ListItemDecorator><BuildCircleIcon color='success' /></ListItemDecorator>
+      //     Models
+      //   </ListItemButton>
 
-      </>}
+      // </>}
     />
   );
 }
