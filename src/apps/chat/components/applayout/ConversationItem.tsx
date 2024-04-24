@@ -108,7 +108,7 @@ export function ConversationItem(props: {
 
       {/* Icon */}
       {props.showSymbols && <ListItemDecorator>
-        {assistantTyping
+        {/* {assistantTyping
           ? (
             <Avatar
               alt='typing' variant='plain'
@@ -123,7 +123,10 @@ export function ConversationItem(props: {
             <Typography sx={{ fontSize: '18px' }}>
               {isNew ? '' : textSymbol}
             </Typography>
-          )}
+          )} */}
+          <Typography sx={{ fontSize: '18px' }}>
+              {isNew ? '' : textSymbol}
+            </Typography>
       </ListItemDecorator>}
 
       {/* Text */}

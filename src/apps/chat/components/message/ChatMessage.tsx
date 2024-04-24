@@ -72,17 +72,17 @@ export function makeAvatar(messageAvatar: string | null, messageRole: DMessage['
 
     case 'assistant':
       // display a gif avatar when the assistant is typing (people seem to love this, so keeping it after april fools')
-      if (messageTyping) {
-        return <Avatar
-          alt={messageSender} variant='plain'
-          src={messageOriginLLM === 'prodia'
-            ? 'https://i.giphy.com/media/5t9ujj9cMisyVjUZ0m/giphy.webp'
-            : messageOriginLLM?.startsWith('react-')
-              ? 'https://i.giphy.com/media/l44QzsOLXxcrigdgI/giphy.webp'
-              : 'https://i.giphy.com/media/jJxaUysjzO9ri/giphy.webp'}
-          sx={{ ...mascotSx, borderRadius: 'var(--joy-radius-sm)' }}
-        />;
-      }
+      // if (messageTyping) {
+      //   return <Avatar
+      //     alt={messageSender} variant='plain'
+      //     src={messageOriginLLM === 'prodia'
+      //       ? 'https://i.giphy.com/media/5t9ujj9cMisyVjUZ0m/giphy.webp'
+      //       : messageOriginLLM?.startsWith('react-')
+      //         ? 'https://i.giphy.com/media/l44QzsOLXxcrigdgI/giphy.webp'
+      //         : 'https://i.giphy.com/media/jJxaUysjzO9ri/giphy.webp'}
+      //     sx={{ ...mascotSx, borderRadius: 'var(--joy-radius-sm)' }}
+      //   />;
+      // }
       // display the purpose symbol
       if (messageOriginLLM === 'prodia')
         return <PaletteOutlinedIcon sx={iconSx} />;
@@ -351,23 +351,17 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
         onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}
         onClick={event => setMenuAnchor(event.currentTarget)}>
 
-        {isHovering ? (
-          <IconButton variant='soft' color={fromAssistant ? 'neutral' : 'primary'}>
-            <MoreVertIcon />
-          </IconButton>
-        ) : (
-          avatarEl
-        )}
+        {(avatarEl)}
 
         {/* Assistant model name */}
         {fromAssistant && (
-          <Tooltip title={messageOriginLLM || 'unk-model'} variant='solid'>
+          <Tooltip title={''} variant='solid'>
             <Typography level='body-sm' sx={{
               fontSize: { xs: 'xs', sm: 'sm' }, fontWeight: 500,
               overflowWrap: 'anywhere',
               ...(messageTyping ? { animation: `${cssRainbowColorKeyframes} 5s linear infinite` } : {}),
             }}>
-              {prettyBaseModel(messageOriginLLM)}
+              {'ChatBot'}
             </Typography>
           </Tooltip>
         )}
@@ -510,53 +504,6 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
             <ContentCopyIcon />
           </IconButton>
         </Tooltip>
-      )}
-
-
-      {/* Message Operations menu */}
-      {!!menuAnchor && (
-        <CloseableMenu
-          placement='bottom-end' sx={{ minWidth: 280 }}
-          open anchorEl={menuAnchor} onClose={closeOperationsMenu}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <MenuItem variant='plain' disabled={messageTyping} onClick={handleMenuEdit} sx={{ flex: 1 }}>
-              <ListItemDecorator><EditIcon /></ListItemDecorator>
-              {isEditing ? 'Discard' : 'Edit'}
-              {/*{!isEditing && <span style={{ opacity: 0.5, marginLeft: '8px' }}>{doubleClickToEdit ? '(double-click)' : ''}</span>}*/}
-            </MenuItem>
-            <MenuItem onClick={handleMenuCopy} sx={{ flex: 1 }}>
-              <ListItemDecorator><ContentCopyIcon /></ListItemDecorator>
-              Copy
-            </MenuItem>
-          </Box>
-          <ListDivider />
-          {!!props.onMessageRunFrom && (
-            <MenuItem onClick={handleMenuRunAgain}>
-              <ListItemDecorator>{fromAssistant ? <ReplayIcon /> : <FastForwardIcon />}</ListItemDecorator>
-              {fromAssistant ? 'Retry' : 'Run from here'}
-            </MenuItem>
-          )}
-          {isImaginable && isImaginableEnabled && (
-            <MenuItem onClick={handleMenuImagine} disabled={!isImaginableEnabled || isImagining}>
-              <ListItemDecorator>{isImagining ? <CircularProgress size='sm' /> : <FormatPaintIcon color='success' />}</ListItemDecorator>
-              Imagine
-            </MenuItem>
-          )}
-          {isSpeakable && isSpeakableEnabled && (
-            <MenuItem onClick={handleMenuSpeak} disabled={isSpeaking}>
-              <ListItemDecorator>{isSpeaking ? <CircularProgress size='sm' /> : <RecordVoiceOverIcon color='success' />}</ListItemDecorator>
-              Speak
-            </MenuItem>
-          )}
-          {!!props.onMessageRunFrom && <ListDivider />}
-          {!!props.onMessageDelete && (
-            <MenuItem onClick={props.onMessageDelete} disabled={false /*fromSystem*/}>
-              <ListItemDecorator><ClearIcon /></ListItemDecorator>
-              Delete
-            </MenuItem>
-          )}
-        </CloseableMenu>
       )}
 
     </ListItem>
