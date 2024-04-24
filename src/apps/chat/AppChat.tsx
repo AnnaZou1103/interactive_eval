@@ -191,19 +191,7 @@ export function AppChat() {
     [activeConversationId],
   );
 
-  const menuItems = React.useMemo(() =>
-      <ChatMenuItems
-        conversationId={activeConversationId} isConversationEmpty={isConversationEmpty} hasConversations={hasAnyContent}
-        isMessageSelectionMode={isMessageSelectionMode} setIsMessageSelectionMode={setIsMessageSelectionMode}
-        onClearConversation={handleClearConversation}
-        onDuplicateConversation={duplicateConversation}
-        onExportConversation={handleExportConversation}
-        onFlattenConversation={handleFlattenConversation}
-      />,
-    [activeConversationId, duplicateConversation, hasAnyContent, isConversationEmpty, isMessageSelectionMode],
-  );
-
-  useLayoutPluggable(centerItems, drawerItems, menuItems);
+  useLayoutPluggable(centerItems, drawerItems);
   
   return <>
     <Allotment css={{backgroundColor: '#EAEEF6'}}>

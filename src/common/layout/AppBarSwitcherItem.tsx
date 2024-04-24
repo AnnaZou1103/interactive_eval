@@ -56,7 +56,7 @@ export function AppBarSwitcherItem() {
       }}
     >
       {/* Group 1: Apps */}
-      <ButtonGroup
+      {/* <ButtonGroup
         variant='solid'
         sx={{
           '--ButtonGroup-separatorSize': '0px',
@@ -73,9 +73,9 @@ export function AppBarSwitcherItem() {
             {AppRouteMap[app].name}
           </Button>
         ))}
-      </ButtonGroup>
+      </ButtonGroup> */}
 
-      <Box sx={{ flex: 1 }} />
+      {/* <Box sx={{ flex: 1 }} /> */}
 
       {/* Group 2: Social Links */}
       <ButtonGroup

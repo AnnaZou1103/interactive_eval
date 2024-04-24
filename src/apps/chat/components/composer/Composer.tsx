@@ -493,8 +493,8 @@ export function Composer(props: {
       : isReAct
         ? 'Multi-step reasoning question...'
         : props.isDeveloperMode
-          ? 'Chat with me · drop source files · attach code...'
-          : /*isProdiaConfigured ?*/ 'Chat · /react · /imagine · drop text files...' /*: 'Chat · /react · drop text files...'*/;
+          ? 'Chat with me!'
+          : /*isProdiaConfigured ?*/ 'Chat with me!' /*: 'Chat · /react · drop text files...'*/;
 
   return (
     <Box sx={props.sx}>
@@ -529,7 +529,7 @@ export function Composer(props: {
             <CameraCaptureButton onOCR={handleCameraOCR} />
 
             {/* Responsive Attach button */}
-            <IconButton onClick={handleShowFilePicker} sx={{ ...hideOnDesktop }}>
+            {/* <IconButton onClick={handleShowFilePicker} sx={{ ...hideOnDesktop }}>
               <AttachFileOutlinedIcon />
             </IconButton>
             <Tooltip
@@ -539,7 +539,7 @@ export function Composer(props: {
                       sx={{ ...hideOnMobile, justifyContent: 'flex-start' }}>
                 Attach
               </Button>
-            </Tooltip>
+            </Tooltip> */}
 
             {/* Responsive Paste button */}
             <IconButton onClick={handlePasteButtonClicked} sx={{ ...hideOnDesktop }}>

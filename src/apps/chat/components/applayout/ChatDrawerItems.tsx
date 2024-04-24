@@ -138,13 +138,13 @@ export function ChatDrawerItems(props: {
 
     <ListDivider sx={{ mt: 0 }} />
 
-    <MenuItem onClick={props.onImportConversation}>
+    {/* <MenuItem onClick={props.onImportConversation}>
       <ListItemDecorator>
         <FileUploadIcon />
       </ListItemDecorator>
       Import chats
       <OpenAIIcon sx={{ fontSize: 'xl', ml: 'auto' }} />
-    </MenuItem>
+    </MenuItem> */}
 
     <MenuItem disabled={!hasChats} onClick={props.onDeleteAllConversations}>
       <ListItemDecorator><DeleteOutlineIcon /></ListItemDecorator>

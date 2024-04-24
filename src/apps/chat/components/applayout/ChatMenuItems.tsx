@@ -66,7 +66,7 @@ export function ChatMenuItems(props: {
     props.conversationId && props.onClearConversation(props.conversationId);
   };
 
-  return <>
+  return {}
 
     {/*<ListItem>*/}
     {/*  <Typography level='body-sm'>*/}
@@ -82,46 +82,46 @@ export function ChatMenuItems(props: {
 
     <ListDivider inset='startContent' /> */}
 
-    <MenuItem disabled={disabled} onClick={handleConversationDuplicate}>
-      <ListItemDecorator>
-        {/*<Badge size='sm' color='success'>*/}
-        <ForkRightIcon color='success' />
-        {/*</Badge>*/}
-      </ListItemDecorator>
-      Duplicate
-    </MenuItem>
+    // <MenuItem disabled={disabled} onClick={handleConversationDuplicate}>
+    //   <ListItemDecorator>
+    //     {/*<Badge size='sm' color='success'>*/}
+    //     <ForkRightIcon color='success' />
+    //     {/*</Badge>*/}
+    //   </ListItemDecorator>
+    //   Duplicate
+    // </MenuItem>
 
-    <MenuItem disabled={disabled} onClick={handleConversationFlatten}>
-      <ListItemDecorator>
-        {/*<Badge size='sm' color='success'>*/}
-        <CompressIcon color='success' />
-        {/*</Badge>*/}
-      </ListItemDecorator>
-      Flatten
-    </MenuItem>
+    // <MenuItem disabled={disabled} onClick={handleConversationFlatten}>
+    //   <ListItemDecorator>
+    //     {/*<Badge size='sm' color='success'>*/}
+    //     <CompressIcon color='success' />
+    //     {/*</Badge>*/}
+    //   </ListItemDecorator>
+    //   Flatten
+    // </MenuItem>
 
-    <ListDivider inset='startContent' />
+    // <ListDivider inset='startContent' />
 
-    <MenuItem disabled={disabled} onClick={handleToggleMessageSelectionMode}>
-      <ListItemDecorator>{props.isMessageSelectionMode ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}</ListItemDecorator>
-      <span style={props.isMessageSelectionMode ? { fontWeight: 800 } : {}}>
-        Cleanup ...
-      </span>
-    </MenuItem>
+    // <MenuItem disabled={disabled} onClick={handleToggleMessageSelectionMode}>
+    //   <ListItemDecorator>{props.isMessageSelectionMode ? <CheckBoxOutlinedIcon /> : <CheckBoxOutlineBlankOutlinedIcon />}</ListItemDecorator>
+    //   <span style={props.isMessageSelectionMode ? { fontWeight: 800 } : {}}>
+    //     Cleanup ...
+    //   </span>
+    // </MenuItem>
 
-    <MenuItem disabled={!props.hasConversations} onClick={handleConversationExport}>
-      <ListItemDecorator>
-        <Badge color='danger' invisible={!shareBadge || !props.hasConversations}>
-          <FileDownloadIcon />
-        </Badge>
-      </ListItemDecorator>
-      Share / Export ...
-    </MenuItem>
+    // <MenuItem disabled={!props.hasConversations} onClick={handleConversationExport}>
+    //   <ListItemDecorator>
+    //     <Badge color='danger' invisible={!shareBadge || !props.hasConversations}>
+    //       <FileDownloadIcon />
+    //     </Badge>
+    //   </ListItemDecorator>
+    //   Share / Export ...
+    // </MenuItem>
 
     {/* <MenuItem disabled={disabled} onClick={handleConversationClear}>
       <ListItemDecorator><ClearIcon /></ListItemDecorator>
       Reset
     </MenuItem> */}
 
-  </>;
+  
 }
