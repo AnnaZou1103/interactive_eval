@@ -85,7 +85,7 @@ export function AppChatLink(props: { linkId: string }) {
 
   const drawerItems = React.useMemo(() => <AppChatLinkDrawerItems />, []);
   const menuItems = React.useMemo(() => <AppChatLinkMenuItems />, []);
-  useLayoutPluggable(null, hasLinkItems ? drawerItems : null, menuItems);
+  useLayoutPluggable(null, hasLinkItems ? drawerItems : null);
 
 
   const pageTitle = (data?.conversation && conversationTitle(data.conversation)) || 'Chat Link';

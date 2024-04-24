@@ -251,7 +251,7 @@ export function CallUI(props: {
     , [pushToTalk, personaVoiceId],
   );
 
-  useLayoutPluggable(chatLLMDropdown, null, menuItems);
+  useLayoutPluggable(chatLLMDropdown, null);
 
 
   return <>
