@@ -57,7 +57,7 @@ export function OpenAISourceSetup(props: { sourceId: DModelSourceId }) {
 
   return <Box sx={{ display: 'flex', flexDirection: 'column', gap: settingsGap }}>
 
-    <FormInputKey
+    {/* <FormInputKey
       id='openai-key' label='API Key'
       rightLabel={<>{needsUserKey
         ? !oaiKey && <><Link level='body-sm' href='https://platform.openai.com/account/api-keys' target='_blank'>create Key</Link> and <Link level='body-sm' href='https://openai.com/waitlist/gpt-4-api' target='_blank'>apply to GPT-4</Link></>
@@ -67,9 +67,9 @@ export function OpenAISourceSetup(props: { sourceId: DModelSourceId }) {
       value={oaiKey} onChange={value => updateSetup({ oaiKey: value })}
       required={needsUserKey} isError={keyError}
       placeholder='sk-...'
-    />
+    /> */}
 
-    {advanced.on && <FormTextField
+    {/* {advanced.on && <FormTextField
       title='Organization ID'
       description={<Link level='body-sm' href={`${Brand.URIs.OpenRepo}/issues/63`} target='_blank'>What is this</Link>}
       placeholder='Optional, for enterprise users'
@@ -111,7 +111,7 @@ export function OpenAISourceSetup(props: { sourceId: DModelSourceId }) {
 
     <SetupFormRefetchButton refetch={refetch} disabled={!shallFetchSucceed || isFetching} error={isError} advanced={advanced} />
 
-    {isError && <InlineError error={error} />}
+    {isError && <InlineError error={error} />} */}
 
   </Box>;
 }
