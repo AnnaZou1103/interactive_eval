@@ -33,6 +33,7 @@ const knownOpenAIChatModels: ({ idPrefix: string } & Omit<ModelDescriptionSchema
     description: 'Snapshot of gpt-4 from June 13th 2023 with function calling data.',
     contextWindow: 8192,
     interfaces: [LLM_IF_OAI_Chat, LLM_IF_OAI_Fn],
+    hidden: true,
   },
   {
     idPrefix: 'gpt-4-0314',
@@ -59,6 +60,7 @@ const knownOpenAIChatModels: ({ idPrefix: string } & Omit<ModelDescriptionSchema
     description: 'Snapshot of gpt-3.5-turbo-16k from June 13th 2023.',
     contextWindow: 16385,
     interfaces: [LLM_IF_OAI_Chat],
+    hidden: true,
   },
   {
     idPrefix: 'gpt-3.5-turbo-16k',

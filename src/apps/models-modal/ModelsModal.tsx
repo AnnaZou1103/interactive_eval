@@ -53,7 +53,7 @@ export function ModelsModal(props: { suspendAutoModelsSetup?: boolean }) {
   return <>
 
     {/* Sources Setup */}
-    {modelsSetupOpen && <GoodModal
+    {/* {modelsSetupOpen && <GoodModal
       title={<>Configure <b>AI Models</b></>}
       startButton={
         multiSource ? <Checkbox
@@ -66,17 +66,17 @@ export function ModelsModal(props: { suspendAutoModelsSetup?: boolean }) {
 
       <ModelsSourceSelector selectedSourceId={selectedSourceId} setSelectedSourceId={setSelectedSourceId} />
 
-      {!!activeSource && <Divider />}
+      {!!activeSource && <Divider />} */}
 
       {!!activeSource && <VendorSourceSetup source={activeSource} />}
-
+{/* 
       {!!llmCount && <Divider />}
 
       {!!llmCount && <ModelsList filterSourceId={showAllSources ? null : selectedSourceId} />}
 
       <Divider />
 
-    </GoodModal>}
+    </GoodModal>} */}
 
     {/* per-LLM options */}
     {!!llmOptionsId && <LLMOptionsModal id={llmOptionsId} />}

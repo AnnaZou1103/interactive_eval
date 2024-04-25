@@ -125,12 +125,13 @@ export function AppBar(props: { sx?: SxProps }) {
       )}
 
       {/* Center Items */}
+
       <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', my: 'auto' }}>
-        {!!centerItems ? centerItems : <AppBarTitle />}
+        {<AppBarTitle />}
       </Box>
 
       {/* Menu Anchor */}
-      <IconButton disabled={!!menuAnchor /*|| !menuItems*/} variant='plain' onClick={event => setLayoutMenuAnchor(event.currentTarget)}>
+      <IconButton disabled={true /*|| !menuItems*/} variant='plain' onClick={event => setLayoutMenuAnchor(event.currentTarget)}>
         <MoreVertIcon />
       </IconButton>
     </Sheet>

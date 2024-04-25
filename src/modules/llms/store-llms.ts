@@ -102,7 +102,7 @@ export const useModelsStore = create<ModelsData & ModelsActions>()(
           const newLlms = [...llms, ...state.llms.filter(llm => !llms.find(m => m.id === llm.id))];
           return {
             llms: newLlms,
-            ...updateSelectedIds(newLlms, state.chatLLMId, state.fastLLMId, state.funcLLMId),
+            ...updateSelectedIds(newLlms, 'openai-gpt-3.5-turbo', state.fastLLMId, state.funcLLMId),
           };
         }),
 
