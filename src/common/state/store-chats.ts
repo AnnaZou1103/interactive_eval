@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { DLLMId, useModelsStore } from '~/modules/llms/store-llms';
 
 import { countModelTokens } from '../util/token-counter';
-import { defaultSystemPurposeId, SystemPurposeId, SurveyQuestions } from '../../data';
+import { defaultSystemPurposeId, SystemPurposeId, SurveyQuestions, ChatBotType } from '../../data';
 import { IDB_MIGRATION_INITIAL, idbStateStorage } from '../util/idbUtils';
 
 
@@ -32,9 +32,23 @@ export interface DConversation {
 }
 
 export function createDConversation(systemPurposeId?: SystemPurposeId): DConversation {
+  const initialmessage: DMessage = 
+    {id: uuidv4(),
+    text:'Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen.',
+    sender: 'Bot',
+    avatar: null,
+    typing: false,
+    role: 'assistant',
+    isRated: false,
+    purposeId: systemPurposeId || defaultSystemPurposeId,
+    tokenCount: 0,
+    created: Date.now(),
+    updated: null,
+  }
+
   return {
     id: uuidv4(),
-    messages: [],
+    messages: [initialmessage],
     systemPurposeId: systemPurposeId || defaultSystemPurposeId,
     tokenCount: 0,
     created: Date.now(),
@@ -47,7 +61,7 @@ export function createDConversation(systemPurposeId?: SystemPurposeId): DConvers
 export function createDEvaluation(conversationId: string, systemPurposeId?: SystemPurposeId): DConversation {
   return {
     id: uuidv4(),
-    messages: [SurveyQuestions[0],SurveyQuestions[1]],
+    messages: [SurveyQuestions[0], SurveyQuestions[1]],
     systemPurposeId: systemPurposeId || defaultSystemPurposeId,
     conversationId: conversationId,
     tokenCount: 0,
@@ -58,7 +72,7 @@ export function createDEvaluation(conversationId: string, systemPurposeId?: Syst
   };
 }
 
-const defaultConversations: DConversation[] = [createDConversation()];
+const defaultConversations: DConversation[] = [createDConversation(ChatBotType[Math.floor(Math.random() * ChatBotType.length)])];
 
 /**
  * Message, sent or received, by humans or bots
@@ -181,8 +195,8 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
       createConversation: () =>
         set(state => {
           // inherit some values from the active conversation (matches users' expectations)
-          const activeConversation = state.conversations.find((conversation: DConversation): boolean => conversation.id === state.activeConversationId);
-          const conversation = createDConversation(activeConversation?.systemPurposeId);
+          // const activeConversation = state.conversations.find((conversation: DConversation): boolean => conversation.id === state.activeConversationId);
+          const conversation = createDConversation(ChatBotType[Math.floor(Math.random() * ChatBotType.length)]);
 
           return {
             conversations: [
@@ -303,8 +317,8 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
       deleteAllConversations: () => {
         set(state => {
           // inherit some values from the active conversation (matches users' expectations)
-          const activeConversation = state.conversations.find((conversation: DConversation): boolean => conversation.id === state.activeConversationId);
-          const conversation = createDConversation(activeConversation?.systemPurposeId);
+          // const activeConversation = state.conversations.find((conversation: DConversation): boolean => conversation.id === state.activeConversationId);
+          const conversation = createDConversation(ChatBotType[Math.floor(Math.random() * ChatBotType.length)]);
           // const evaluation = createEvaluation(conversation.id,conversation.systemPurposeId);
 
           // abort any pending requests on all conversations

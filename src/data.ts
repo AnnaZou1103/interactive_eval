@@ -2,7 +2,7 @@ import * as React from 'react';
 export const ChatBotType: SystemPurposeId[] = ['Introvert', 'Extrovert', 'Disagreeable', 'Agreeable', 'Unconscientious', 'Conscientious', 'Unneurotic', 'Neurotic', 'Open', 'Conservative'];
 export type SystemPurposeId = 'Introvert' | 'Extrovert' | 'Disagreeable' | 'Agreeable' | 'Unconscientious' | 'Conscientious' | 'Unneurotic' | 'Neurotic' | 'Open' | 'Conservative'| 'Generic' | 'Custom';
 
-export const defaultSystemPurposeId: SystemPurposeId = 'Generic';
+export const defaultSystemPurposeId: SystemPurposeId = ChatBotType[Math.floor(Math.random() * ChatBotType.length)];
 import {DMessage} from '~/common/state/store-chats';
 import {v4 as uuidv4 } from 'uuid';
 

@@ -29,55 +29,29 @@ export function AppNews() {
       p: { xs: 3, md: 6 },
       gap: 4,
     }}>
-
-      <Typography level='h1' sx={{fontSize: '3.6rem'}}>
-        New updates!
+  
+      <Typography level='h1' sx={{fontSize: '2.3rem'}}>
+          Task Instructions
       </Typography>
-
-      <Typography>
-        {capitalizeFirstLetter(Brand.Title.Base)} has been updated to version {firstNews?.versionName}. Enjoy what&apos;s new:
-      </Typography>
-
-      {!!news && <Container disableGutters maxWidth='sm'>
-        {news?.map((ni, idx) => {
-          const firstCard = idx === 0;
-          const hasCardAfter = news.length < NewsItems.length;
-          const showExpander = hasCardAfter && (idx === news.length - 1);
-          const addPadding = !firstCard || showExpander;
-          return <Card key={'news-' + idx} sx={{ mb: 2, minHeight: 32 }}>
-            <CardContent sx={{ position: 'relative', pr: addPadding ? 4 : 0 }}>
-              {!!ni.text && <Typography component='div'>
-                {ni.text}
-              </Typography>}
-
-              {!!ni.items && (ni.items.length > 0) && <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
-                {ni.items.map((item, idx) => <li key={idx}>
-                  <Typography component='div'>
-                    {item.text}
-                  </Typography>
-                </li>)}
-              </ul>}
-
-              {/*!firstCard &&*/ (
-                <Typography level='body-sm' sx={{ position: 'absolute', right: 0, top: 0 }}>
-                  {ni.versionName}
-                </Typography>
-              )}
-
-              {showExpander && (
-                <IconButton
-                  variant='plain' size='sm'
-                  onClick={() => setLastNewsIdx(idx + 1)}
-                  sx={{ position: 'absolute', right: 0, bottom: 0, mr: -1, mb: -1 }}
-                >
-                  <ExpandMoreIcon />
-                </IconButton>
-              )}
-
-            </CardContent>
-          </Card>;
-        })}
-      </Container>}
+      <Container disableGutters maxWidth='sm'>
+          <Card>
+          <CardContent sx={{ position: 'relative', pr:0 }}>
+          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Personalized Social Support Seeking</Typography>
+          The goal of this task is to obtain personalized social support from a chatbot. 
+          Through this interaction, you can view the chatbots as supportive companions during moments of emotional or psychological difficulty. 
+          <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
+              <li>
+                  To start, engage in a conversation with the chatbot, 
+                  articulating your need for personalized social support and sharing any concerns you may have.
+              </li>
+              <li> 
+                An example to start the conversation is, 
+                "My parents are kind and always encourage me to follow my dream. But I really afraid to make them disappointed."</li>
+              <li>P.S. Please don’t disclose your private information in this conversational process. </li>
+          </ul>
+          </CardContent>
+          </Card>
+        </Container>
 
       <Button variant='solid' color='neutral' size='lg' component={Link} href='/' noLinkStyle>
         Got it!
