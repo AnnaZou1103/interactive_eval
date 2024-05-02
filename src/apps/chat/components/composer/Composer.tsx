@@ -704,11 +704,12 @@ export function Composer(props: {
 
 
             {/* [desktop] other buttons (aligned to bottom for now, and mutually exclusive) */}
-            <Box sx={{ flexGrow: 1, flexDirection: 'column', gap: 1, justifyContent: 'flex-end', ...hideOnMobile }}>
+            <Box sx={{ flexGrow: 1, flexDirection: 'column', gap: 1, justifyContent: 'flex-end'}}>
 
               {APP_CALL_ENABLED && isChat && <CallButtonDesktop disabled={!props.conversationId || !chatLLM} onClick={handleCallClicked} />}
 
               {(isDraw || isDrawPlus) && <DrawOptionsButtonDesktop onClick={handleDrawOptionsClicked} />}
+
             {!isEvaluation && <Button
                   id="rate_switch"
                   fullWidth variant='soft' color={isReAct ? 'success' : 'primary'} 
