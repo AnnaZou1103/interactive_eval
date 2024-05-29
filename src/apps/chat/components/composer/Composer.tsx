@@ -720,6 +720,7 @@ export function Composer(props: {
                   Rate
                 </Button>
             }
+
             {isEvaluation && <Button
                   id="rate_switch"
                   fullWidth variant='soft' color={isReAct ? 'success' : 'primary'} 
@@ -729,17 +730,26 @@ export function Composer(props: {
                   Hide Rate
                 </Button>
             }
+            </Box>
 
-            <Button
+            <Box sx={{ display: 'flex' }}>
+              <Button
                   fullWidth variant='soft' 
                   color={chatLinkResponse?.type === 'success'? 'success' : 'primary'}
                   disabled={!props.conversationId || !chatLLM}
                   loading={chatLinkUploading}
                   onClick={handleSaveClicked}
                 >
-                {chatLinkResponse?.type ? 'Saved to Database' : 'Save to Database'}
-                </Button>
+                {chatLinkResponse?.type === 'success' ? 'Saved to Database' : 'Save to Database'}
+              </Button>
+
+              {chatLinkResponse?.type === 'error' && <>
+                <Alert variant='soft' color='danger' sx={{ my: 1}}>
+                <Typography>Please try again</Typography>
+                </Alert>
+              </>}
             </Box>
+
 
           </Box>
         </Grid>
