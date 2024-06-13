@@ -45,8 +45,7 @@ export function AppNews() {
                   articulating your need for personalized social support and sharing any concerns you may have.
               </li>
               <li> 
-                An <b>example</b> to start the conversation is, 
-                "My parents are kind and always encourage me to follow my dream. But I really afraid to make them disappointed."</li>
+                An <b>example</b> to start the conversation is, My parents are kind and always encourage me to follow my dream. But I really afraid to make them disappointed.</li>
               <li>P.S. Please <b>don’t</b> disclose your private information in this conversational process. </li>
           </ul>
           </CardContent>
