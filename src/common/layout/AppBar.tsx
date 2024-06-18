@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Box, IconButton, ListDivider, ListItemDecorator, MenuItem, Sheet, Typography, useColorScheme } from '@mui/joy';
+import Descriptions from '@mui/icons-material/LiveHelp';
 import { SxProps } from '@mui/joy/styles/types';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
@@ -132,7 +133,7 @@ export function AppBar(props: { sx?: SxProps }) {
 
       {/* Menu Anchor */}
       <IconButton disabled={false} variant='plain' component={Link} href={'/news'} noLinkStyle>
-        <MoreVertIcon />
+        <Descriptions />
       </IconButton>
     </Sheet>
 

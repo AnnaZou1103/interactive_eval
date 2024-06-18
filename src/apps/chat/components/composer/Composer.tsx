@@ -596,23 +596,23 @@ export function Composer(props: {
 
             </Box>
 
-            {isSpeechEnabled && (
+            {/* {isSpeechEnabled && (
               <MicButton variant={micVariant} color={micColor} onClick={handleMicClicked} sx={{
                 ...hideOnMobile,
                 position: 'absolute', top: 0, right: 0,
                 zIndex: 21,
                 m: 1,
               }} />
-            )}
+            )} */}
 
-            {!!tokenLimit && (
+            {/* {!!tokenLimit && (
               <TokenBadge
                 directTokens={directTokens} indirectTokens={historyTokens + responseTokens} tokenLimit={tokenLimit}
                 showExcess absoluteBottomRight
               />
-            )}
+            )} */}
 
-            {!!speechInterimResult && (
+            {/* {!!speechInterimResult && (
               <Card
                 color='primary' invertedColors variant='soft'
                 sx={{
@@ -629,9 +629,9 @@ export function Composer(props: {
                   <span style={{ opacity: 0.5 }}>{speechInterimResult.interimTranscript}</span>
                 </Typography>
               </Card>
-            )}
+            )} */}
 
-            <Card
+            {/* <Card
               color='primary' invertedColors variant='soft'
               sx={{
                 display: isDragging ? 'flex' : 'none',
@@ -648,7 +648,7 @@ export function Composer(props: {
               <Typography level='body-sm' sx={{ pointerEvents: 'none' }}>
                 I will hold on to this for you
               </Typography>
-            </Card>
+            </Card> */}
 
           </Box>
 
@@ -663,17 +663,17 @@ export function Composer(props: {
 
 
               {/* [mobile] [corner] Call button */}
-              {APP_CALL_ENABLED && isChat && <CallButtonMobile
+              {/* {APP_CALL_ENABLED && isChat && <CallButtonMobile
                 disabled={!props.conversationId || !chatLLM}
                 onClick={handleCallClicked}
                 sx={{ ...hideOnDesktop, mr: { xs: 1, md: 2 } }}
-              />}
+              />} */}
 
               {/* [mobile] [corner] Draw button */}
-              {(isDraw || isDrawPlus) && <DrawOptionsButtonMobile
+              {/* {(isDraw || isDrawPlus) && <DrawOptionsButtonMobile
                 onClick={handleDrawOptionsClicked}
                 sx={{ ...hideOnDesktop, mr: { xs: 1, md: 2 } }}
-              />}
+              />} */}
 
               {/* Responsive Send/Stop buttons */}
               {assistantTyping
@@ -706,9 +706,9 @@ export function Composer(props: {
             {/* [desktop] other buttons (aligned to bottom for now, and mutually exclusive) */}
             <Box sx={{ flexGrow: 1, flexDirection: 'column', gap: 1, justifyContent: 'flex-end'}}>
 
-              {APP_CALL_ENABLED && isChat && <CallButtonDesktop disabled={!props.conversationId || !chatLLM} onClick={handleCallClicked} />}
+              {/* {APP_CALL_ENABLED && isChat && <CallButtonDesktop disabled={!props.conversationId || !chatLLM} onClick={handleCallClicked} />}
 
-              {(isDraw || isDrawPlus) && <DrawOptionsButtonDesktop onClick={handleDrawOptionsClicked} />}
+              {(isDraw || isDrawPlus) && <DrawOptionsButtonDesktop onClick={handleDrawOptionsClicked} />} */}
 
             {!isEvaluation && <Button
                   id="rate_switch"
@@ -735,19 +735,19 @@ export function Composer(props: {
             <Box sx={{ display: 'flex' }}>
               <Button
                   fullWidth variant='soft' 
-                  color={chatLinkResponse?.type === 'success'? 'success' : 'primary'}
+                  color={chatLinkResponse?.type === 'success'? 'success' : chatLinkResponse?.type === 'error'? 'danger' : 'primary'}
                   disabled={!props.conversationId || !chatLLM}
                   loading={chatLinkUploading}
                   onClick={handleSaveClicked}
                 >
-                {chatLinkResponse?.type === 'success' ? 'Saved to Database' : 'Save to Database'}
+                {chatLinkResponse?.type === 'success' ? 'Success' : chatLinkResponse?.type === 'error'? 'Please try again': 'Submit'}
               </Button>
-
+{/* 
               {chatLinkResponse?.type === 'error' && <>
                 <Alert variant='soft' color='danger' sx={{ my: 1}}>
                 <Typography>Please try again</Typography>
                 </Alert>
-              </>}
+              </>} */}
             </Box>
 
 

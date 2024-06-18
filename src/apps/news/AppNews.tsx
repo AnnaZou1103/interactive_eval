@@ -44,9 +44,8 @@ export function AppNews() {
                   To start, engage in a conversation with the chatbot, 
                   articulating your need for personalized social support and sharing any concerns you may have.
               </li>
-              <li> 
-                An <b>example</b> to start the conversation is, My parents are kind and always encourage me to follow my dream. But I really afraid to make them disappointed.</li>
-              <li>P.S. Please <b>don’t</b> disclose your private information in this conversational process. </li>
+              <li>A possible  <b>scenario</b> is: you failed an exam and worry about disappointing your parents.</li>
+              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. </li>
           </ul>
           </CardContent>
           </Card>
