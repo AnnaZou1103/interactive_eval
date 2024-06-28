@@ -14,7 +14,7 @@ import * as React from 'react';
 // 'Open'| 'Open_v1'| 'Open_v2'|'Open_v3'|'Open_v4'|
 // 'Conservative'| 'Conservative_v1'|'Conservative_v2'| 'Conservative_v3'|'Conservative_v4' |'Generic' | 'Custom';
 export const ChatBotType: SystemPurposeId[] = ['Introvert'];
-export type SystemPurposeId = 'Introvert';
+export type SystemPurposeId = 'Introvert'| 'Custom';
 
 export const defaultSystemPurposeId: SystemPurposeId = ChatBotType[Math.floor(Math.random() * ChatBotType.length)];
 import {DMessage} from '~/common/state/store-chats';
@@ -389,12 +389,12 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '💬',
   //   examples: ['what is the meaning of life?', 'how do I get a job at OpenAI?', 'what are some healthy meal ideas?'],
   // }, 
-  // Custom: {
-  //   title: 'Custom',
-  //   description: 'User-defined purpose',
-  //   systemMessage: 'You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.\nCurrent date: {{Today}}',
-  //   symbol: '✨',
-  // },
+  Custom: {
+    title: 'Custom',
+    description: 'User-defined purpose',
+    systemMessage: 'You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.\nCurrent date: {{Today}}',
+    symbol: '✨',
+  },
 };
 
 export const SurveyQuestions: DMessage[] = 
