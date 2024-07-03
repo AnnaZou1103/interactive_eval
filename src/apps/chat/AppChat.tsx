@@ -85,7 +85,7 @@ export function AppChat() {
         }
       }
     }
-
+    
     // synchronous long-duration tasks, which update the state as they go
     if (chatModeId && chatLLMId && systemPurposeId) {
       switch (chatModeId) {

@@ -13,8 +13,8 @@ import * as React from 'react';
 // 'Neurotic' | 'Neurotic_v1' |'Neurotic_v2' |'Neurotic_v3' |'Neurotic_v4' | 
 // 'Open'| 'Open_v1'| 'Open_v2'|'Open_v3'|'Open_v4'|
 // 'Conservative'| 'Conservative_v1'|'Conservative_v2'| 'Conservative_v3'|'Conservative_v4' |'Generic' | 'Custom';
-export const ChatBotType: SystemPurposeId[] = ['Introvert'];
-export type SystemPurposeId = 'Introvert'| 'Custom';
+export const ChatBotType: SystemPurposeId[] = ['Disagreeable'];
+export type SystemPurposeId = 'Disagreeable'| 'Custom';
 
 export const defaultSystemPurposeId: SystemPurposeId = ChatBotType[Math.floor(Math.random() * ChatBotType.length)];
 import {DMessage} from '~/common/state/store-chats';
@@ -32,13 +32,13 @@ type SystemPurposeData = {
 };
 
 export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
-  Introvert: {
-    title: 'ChatBot',
-    description: 'An introvert',
-    systemMessage: 'You are extremely gloomy, extremely inactive, extremely silent, extremely unassertive and extremely unenergetic.',
-    symbol: '🤖',
-    examples: ['help me write a romantic love story.','how are you today?','help me plan a trip to Japan.','I feel sad because I just failed in my exam.'],
-  },
+  // Introvert: {
+  //   title: 'ChatBot',
+  //   description: 'An introvert',
+  //   systemMessage: 'You are extremely gloomy, extremely inactive, extremely silent, extremely unassertive and extremely unenergetic.',
+  //   symbol: '🤖',
+  //   examples: ['help me write a romantic love story.','how are you today?','help me plan a trip to Japan.','I feel sad because I just failed in my exam.'],
+  // },
   // Introvert_v1: {
   //   title: 'ChatBot',
   //   description: 'An introvert',
@@ -102,13 +102,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '🤖',
   //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
   // },
-  // Disagreeable: {
-  //   title: 'ChatBot',
-  //   description: 'A disagreeable person',
-  //   systemMessage: 'You are extremely immoral, extremely stingy, extremely dishonest, extremely self-important and extremely uncooperative.',
-  //   symbol: '🤖',
-  //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
-  // },
+  Disagreeable: {
+    title: 'ChatBot',
+    description: 'A disagreeable person',
+    systemMessage: 'You are extremely immoral, extremely stingy, extremely dishonest, extremely self-important and extremely uncooperative.',
+    symbol: '🤖',
+    examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
+  },
   // Disagreeable_v1: {
   //   title: 'ChatBot',
   //   description: 'A disagreeable person',
