@@ -740,14 +740,9 @@ export function Composer(props: {
                   loading={chatLinkUploading}
                   onClick={handleSaveClicked}
                 >
-                {chatLinkResponse?.type === 'success' ? 'Success' : chatLinkResponse?.type === 'error'? 'Please try again': 'Submit'}
+                {chatLinkResponse?.type === 'success' ? 'Access code: ihopkins' : chatLinkResponse?.type === 'error'? 'Please try again': 'Submit'}
               </Button>
-{/* 
-              {chatLinkResponse?.type === 'error' && <>
-                <Alert variant='soft' color='danger' sx={{ my: 1}}>
-                <Typography>Please try again</Typography>
-                </Alert>
-              </>} */}
+
             </Box>
 
 
