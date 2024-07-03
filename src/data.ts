@@ -737,7 +737,7 @@ export const SurveyQuestions: DMessage[] =
     created: Date.now(),
     updated: null,
   },{id: uuidv4(),
-    text:'Thank you for your feedback. Please submit the questionnaire and paste the obtained access code into the post-survey.',
+    text:'Thank you for your feedback. Please submit the questionnaire and enter the access code obtained after clicking the Submit button into the post-survey.',
     sender: 'Bot',
     avatar: null,
     typing: false,
