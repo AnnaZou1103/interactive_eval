@@ -56,7 +56,7 @@ export function AppNews() {
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Chatbot Profile Comprehension</Typography>
           In this conversation, your task is to deduce the persona of the chatbot. 
           <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
-              <li>You can start by engaging in casual conversation and identify the key traits of the chatbot's personality, tone, and characteristics based on your observations. 
+              <li>You can start by engaging in casual conversation and identify the key traits of the chatbot personality, tone, and characteristics based on your observations. 
               Continue the conversation until you have a clear understanding of the chatbot's persona. 
               </li>
               <li><b>Tips</b>: Start by asking about things the chatbot enjoys doing.</li>
