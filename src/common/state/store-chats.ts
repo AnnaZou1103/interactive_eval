@@ -34,7 +34,7 @@ export interface DConversation {
 export function createDConversation(systemPurposeId?: SystemPurposeId): DConversation {
   const initialmessage: DMessage = 
     {id: uuidv4(),
-    text:'Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen.',
+    text:"Welcome to our chat! As you engage in this conversation, your task is to deduce the persona of our chatbot. Let's start by having a casual conversation.",
     sender: 'Bot',
     avatar: null,
     typing: false,
