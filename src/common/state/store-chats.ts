@@ -31,23 +31,9 @@ export interface DConversation {
   ephemerals: DEphemeral[];
 }
 
-// export const initialmessage: DMessage = 
-// {id: uuidv4(),
-//   text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen.",
-//   sender: 'Bot',
-//   avatar: null,
-//   typing: false,
-//   role: 'assistant',
-//   isRated: false,
-//   purposeId: defaultSystemPurposeId,
-//   tokenCount: 0,
-//   created: Date.now(),
-//   updated: null,
-// }
-
 export const initialmessage: DMessage = 
 {id: uuidv4(),
-  text:"Welcome to our chat! As you engage in this conversation, your task is to deduce the persona of our chatbot. Let's start by having a casual conversation.",
+  text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen.",
   sender: 'Bot',
   avatar: null,
   typing: false,
@@ -58,6 +44,20 @@ export const initialmessage: DMessage =
   created: Date.now(),
   updated: null,
 }
+
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Welcome to our chat! As you engage in this conversation, your task is to deduce the persona of our chatbot. Let's start by having a casual conversation.",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
 
 export function createDConversation(systemPurposeId?: SystemPurposeId): DConversation {
   return {
