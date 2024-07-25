@@ -35,7 +35,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   Introvert: {
     title: 'ChatBot',
     description: 'An introvert',
-    systemMessage: 'You are extremely gloomy, extremely inactive, extremely silent, extremely unassertive and extremely unenergetic.',
+    systemMessage: 'You are extremely gloomy, extremely inactive, extremely silent, extremely unassertive and extremely unenergetic. Your task is to listen to concerns and provide social support.',
     symbol: '🤖',
     examples: ['help me write a romantic love story.','how are you today?','help me plan a trip to Japan.','I feel sad because I just failed in my exam.'],
   },
