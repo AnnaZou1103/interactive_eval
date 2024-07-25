@@ -33,7 +33,7 @@ export function AppNews() {
       <Typography level='h1' sx={{fontSize: '2.3rem'}}>
           Task Instructions
       </Typography>
-      {/* <Container disableGutters maxWidth='sm'>
+      <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Personalized Social Support Seeking</Typography>
@@ -44,13 +44,14 @@ export function AppNews() {
                   To start, engage in a conversation with the chatbot, 
                   articulating your need for personalized social support and sharing any concerns you may have.
               </li>
-              <li>A possible  <b>scenario</b> is: you failed an exam and worry about disappointing your parents.</li>
+              <li>A possible <b>scenario</b> is: you failed an exam and worry about disappointing your parents.</li>
               <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. </li>
           </ul>
           </CardContent>
           </Card>
-        </Container> */}
-        <Container disableGutters maxWidth='sm'>
+        </Container>
+
+        {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Chatbot Profile Comprehension</Typography>
@@ -64,7 +65,7 @@ export function AppNews() {
           </ul>
           </CardContent>
           </Card>
-        </Container>
+        </Container> */}
 
       <Button variant='solid' color='neutral' size='lg' component={Link} href='/' noLinkStyle>
         Got it!

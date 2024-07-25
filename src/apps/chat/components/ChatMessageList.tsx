@@ -95,12 +95,12 @@ export function ChatMessageList(props: {
   const filteredMessages = messages.filter(m => m.role !== 'system').reverse();
 
   // when there are no messages, show the purpose selector
-  if (!filteredMessages.length)
-    return props.conversationId ? (
-      <Box sx={props.sx || {}}>
-        <PersonaSelector conversationId={props.conversationId} runExample={handleRunExample} />
-      </Box>
-    ) : null;
+  // if (!filteredMessages.length)
+  //   return props.conversationId ? (
+  //     <Box sx={props.sx || {}}>
+  //       <PersonaSelector conversationId={props.conversationId} runExample={handleRunExample} />
+  //     </Box>
+  //   ) : null;
 
 
   const handleToggleSelected = (messageId: string, selected: boolean) => {
@@ -179,7 +179,6 @@ export function ChatMessageList(props: {
           />
 
         ) : (
-
           <ChatMessage
             key={'msg-' + message.id} message={message} diffText={message === diffMessage ? diffText : undefined}
             isBottom={idx === 0}

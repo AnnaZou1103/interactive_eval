@@ -8,7 +8,7 @@ import { imaginePromptFromText } from '~/modules/aifn/imagine/imaginePromptFromT
 import { useModelsStore } from '~/modules/llms/store-llms';
 
 import { ConfirmationModal } from '~/common/components/ConfirmationModal';
-import { createDMessage, DMessage, useChatStore } from '~/common/state/store-chats';
+import { createDMessage, DMessage, initialmessage, useChatStore } from '~/common/state/store-chats';
 import { useLayoutPluggable } from '~/common/layout/store-applayout';
 
 import { ChatDrawerItems } from './components/applayout/ChatDrawerItems';
@@ -25,6 +25,7 @@ import { runImageGenerationUpdatingState } from './editors/image-generate';
 import { runReActUpdatingState } from './editors/react-tangent';
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
+import { ChatMessage } from './components/message/ChatMessage';
 
 const SPECIAL_ID_ALL_CHATS = 'all-chats';
 
@@ -193,9 +194,21 @@ export function AppChat() {
 
   useLayoutPluggable(centerItems, drawerItems);
   
+  function handleMessageDelete(id: string): void {
+    throw new Error('Function not implemented.');
+  }
+
   return <>
     <Allotment css={{backgroundColor: '#EAEEF6'}}>
     <div style={{overflow: 'auto', height:'100%', width: '100%'}}>
+    <ChatMessage
+          key={'msg-' + initialmessage.id} message={initialmessage} diffText={undefined}
+          isBottom={true}
+          onMessageDelete={undefined}
+          onMessageEdit={newText => handleMessageDelete(initialmessage.id)}
+          onMessageRunFrom={undefined}
+          onImagine={undefined}
+      />
     <ChatMessageList
       conversationId={activeConversationId}
       isMessageSelectionMode={isMessageSelectionMode} setIsMessageSelectionMode={setIsMessageSelectionMode}
