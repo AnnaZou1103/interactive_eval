@@ -31,19 +31,19 @@ export interface DConversation {
   ephemerals: DEphemeral[];
 }
 
-export const initialmessage: DMessage = 
-{id: uuidv4(),
-  text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen.",
-  sender: 'Bot',
-  avatar: null,
-  typing: false,
-  role: 'assistant',
-  isRated: false,
-  purposeId: defaultSystemPurposeId,
-  tokenCount: 0,
-  created: Date.now(),
-  updated: null,
-}
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen.",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
 
 // export const initialmessage: DMessage = 
 // {id: uuidv4(),
@@ -58,6 +58,20 @@ export const initialmessage: DMessage =
 //   created: Date.now(),
 //   updated: null,
 // }
+
+export const initialmessage: DMessage = 
+{id: uuidv4(),
+  text:"Welcome to our collaborative story writing adventure, you will combine your creative storytelling skills with the chatbots' abilities. Let's begin by brainstorming story ideas, themes and plot elements.",
+  sender: 'Bot',
+  avatar: null,
+  typing: false,
+  role: 'assistant',
+  isRated: false,
+  purposeId: defaultSystemPurposeId,
+  tokenCount: 0,
+  created: Date.now(),
+  updated: null,
+}
 
 export function createDConversation(systemPurposeId?: SystemPurposeId): DConversation {
   return {

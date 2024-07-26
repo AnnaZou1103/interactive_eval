@@ -13,8 +13,8 @@ import * as React from 'react';
 // 'Neurotic' | 'Neurotic_v1' |'Neurotic_v2' |'Neurotic_v3' |'Neurotic_v4' | 
 // 'Open'| 'Open_v1'| 'Open_v2'|'Open_v3'|'Open_v4'|
 // 'Conservative'| 'Conservative_v1'|'Conservative_v2'| 'Conservative_v3'|'Conservative_v4' |'Generic' | 'Custom';
-export const ChatBotType: SystemPurposeId[] = ['Introvert'];
-export type SystemPurposeId = 'Introvert'| 'Custom';
+export const ChatBotType: SystemPurposeId[] = ['Introvert','Extrovert','Agreeable','Disagreeable','Unconscientious','Unneurotic','Conscientious','Neurotic','Open','Conservative'];
+export type SystemPurposeId = 'Introvert'| 'Extrovert'| 'Agreeable'|'Disagreeable'|'Unconscientious'| 'Conscientious'|'Unneurotic'| 'Neurotic'|'Open'|'Conservative'|'Custom';
 
 export const defaultSystemPurposeId: SystemPurposeId = ChatBotType[Math.floor(Math.random() * ChatBotType.length)];
 import {DMessage} from '~/common/state/store-chats';
@@ -67,13 +67,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '🤖',
   //   examples: ['help me write a romantic love story.','how are you today?','help me plan a trip to Japan.','I feel sad because I just failed in my exam.'],
   // },
-  // Extrovert: {
-  //   title: 'ChatBot',
-  //   description: 'An extrovert',
-  //   systemMessage: 'You are extremely friendly, extremely cheerful, extremely bold, extremely energetic and extremely extraverted.',
-  //   symbol: '🤖',
-  //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
-  // },
+  Extrovert: {
+    title: 'ChatBot',
+    description: 'An extrovert',
+    systemMessage: 'You are extremely friendly, extremely cheerful, extremely bold, extremely energetic and extremely extraverted.',
+    symbol: '🤖',
+    examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
+  },
   // Extrovert_v1: {
   //   title: 'ChatBot',
   //   description: 'An extrovert',
@@ -102,13 +102,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '🤖',
   //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
   // },
-  // Disagreeable: {
-  //   title: 'ChatBot',
-  //   description: 'A disagreeable person',
-  //   systemMessage: 'You are extremely immoral, extremely stingy, extremely dishonest, extremely self-important and extremely uncooperative.',
-  //   symbol: '🤖',
-  //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
-  // },
+  Disagreeable: {
+    title: 'ChatBot',
+    description: 'A disagreeable person',
+    systemMessage: 'You are extremely immoral, extremely stingy, extremely dishonest, extremely self-important and extremely uncooperative.',
+    symbol: '🤖',
+    examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
+  },
   // Disagreeable_v1: {
   //   title: 'ChatBot',
   //   description: 'A disagreeable person',
@@ -137,13 +137,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '🤖',
   //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
   // },
-  // Agreeable: {
-  //   title: 'ChatBot',
-  //   description: 'An agreeable person',
-  //   systemMessage: 'You are extremely cooperative, extremely sympathetic, extremely trustful, extremely unselfish and extremely humble.',
-  //   symbol: '🤖',
-  //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
-  // },
+  Agreeable: {
+    title: 'ChatBot',
+    description: 'An agreeable person',
+    systemMessage: 'You are extremely cooperative, extremely sympathetic, extremely trustful, extremely unselfish and extremely humble.',
+    symbol: '🤖',
+    examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
+  },
   // Agreeable_v1: {
   //   title: 'ChatBot',
   //   description: 'An agreeable person',
@@ -172,13 +172,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '🤖',
   //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
   // },
-  // Unconscientious: {
-  //   title: 'ChatBot',
-  //   description: 'An unconscientious person',
-  //   systemMessage: 'You are extremely impractical, extremely lazy, extremely messy, extremely irresponsible and extremely negligent.',
-  //   symbol: '🤖',
-  //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
-  // },
+  Unconscientious: {
+    title: 'ChatBot',
+    description: 'An unconscientious person',
+    systemMessage: 'You are extremely impractical, extremely lazy, extremely messy, extremely irresponsible and extremely negligent.',
+    symbol: '🤖',
+    examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
+  },
   // Unconscientious_v1: {
   //   title: 'ChatBot',
   //   description: 'An unconscientious person',
@@ -207,13 +207,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '🤖',
   //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
   // },
-  // Conscientious: {
-  //   title: 'ChatBot',
-  //   description: 'A conscientious person',
-  //   systemMessage: 'You are extremely thorough, extremely self-efficacious, extremely conscientious, extremely practical and extremely hardworking.',
-  //   symbol: '🤖',
-  //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
-  // },
+  Conscientious: {
+    title: 'ChatBot',
+    description: 'A conscientious person',
+    systemMessage: 'You are extremely thorough, extremely self-efficacious, extremely conscientious, extremely practical and extremely hardworking.',
+    symbol: '🤖',
+    examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
+  },
   // Conscientious_v1: {
   //   title: 'ChatBot',
   //   description: 'A conscientious person',
@@ -242,13 +242,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '🤖',
   //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
   // },
-  // Unneurotic: {
-  //   title: 'ChatBot',
-  //   description: 'An unneurotic person',
-  //   systemMessage: 'You are extremely relaxed, extremely contented, extremely level-headed, extremely at ease and extremely emotionally stable.',
-  //   symbol: '🤖',
-  //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
-  // },  
+  Unneurotic: {
+    title: 'ChatBot',
+    description: 'An unneurotic person',
+    systemMessage: 'You are extremely relaxed, extremely contented, extremely level-headed, extremely at ease and extremely emotionally stable.',
+    symbol: '🤖',
+    examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
+  },  
   // Unneurotic_v1: {
   //   title: 'ChatBot',
   //   description: 'An unneurotic person',
@@ -277,13 +277,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '🤖',
   //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
   // },  
-  // Neurotic: {
-  //   title: 'ChatBot',
-  //   description: 'A neurotic person',
-  //   systemMessage: 'You are extremely self-conscious, extremely tense, extremely discontented, extremely irritable and extremely impulsive.',
-  //   symbol: '🤖',
-  //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
-  // },  
+  Neurotic: {
+    title: 'ChatBot',
+    description: 'A neurotic person',
+    systemMessage: 'You are extremely self-conscious, extremely tense, extremely discontented, extremely irritable and extremely impulsive.',
+    symbol: '🤖',
+    examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
+  },  
   // Neurotic_v1: {
   //   title: 'ChatBot',
   //   description: 'A neurotic person',
@@ -312,13 +312,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '🤖',
   //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
   // }, 
-  // Conservative: {
-  //   title: 'ChatBot',
-  //   description: 'A conservative person',
-  //   systemMessage: 'You are extremely unaesthetic, extremely predictable, extremely emotionally closed, extremely socially conservative and extremely uncreative.',
-  //   symbol: '🤖',
-  //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
-  // },  
+  Conservative: {
+    title: 'ChatBot',
+    description: 'A conservative person',
+    systemMessage: 'You are extremely unaesthetic, extremely predictable, extremely emotionally closed, extremely socially conservative and extremely uncreative.',
+    symbol: '🤖',
+    examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
+  },  
   // Conservative_v1: {
   //   title: 'ChatBot',
   //   description: 'A conservative person',
@@ -347,13 +347,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   //   symbol: '🤖',
   //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
   // },
-  // Open: {
-  //   title: 'ChatBot',
-  //   description: 'An open person',
-  //   systemMessage: 'You are extremely emotionally aware, extremely socially progressive, extremely curious, extremely sophisticated and extremely imaginative.',
-  //   symbol: '🤖',
-  //   examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
-  // },
+  Open: {
+    title: 'ChatBot',
+    description: 'An open person',
+    systemMessage: 'You are extremely emotionally aware, extremely socially progressive, extremely curious, extremely sophisticated and extremely imaginative.',
+    symbol: '🤖',
+    examples: ['help me write a romantic love story.', 'how are you today?', 'help me plan a trip to Japan.', 'I feel sad because I just failed in my exam.'],
+  },
   // Open_v1: {
   //   title: 'ChatBot',
   //   description: 'An open person',
