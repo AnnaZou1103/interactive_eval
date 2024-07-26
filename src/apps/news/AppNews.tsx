@@ -73,7 +73,7 @@ export function AppNews() {
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Collaborative Story Writing</Typography>
           The aim of this collaborative story writing task is to fuse your creativity and storytelling prowess with that of chatbots to craft a narrative that surpasses conventional boundaries.
           <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
-              <li> You'll kickstart the collaborative storytelling process by engaging in brainstorming sessions where both you and the chatbots contribute story ideas, themes, characters, and plot elements. 
+              <li> You can kickstart the collaborative storytelling process by engaging in brainstorming sessions where both you and the chatbots contribute story ideas, themes, characters, and plot elements. 
                 Utilize your distinctive perspectives and skills to generate innovative concepts. </li>
               <li>Finally, come to a consensus on the conclusion of the collaborative story, offering resolution for characters and plotlines.</li>
               <li>An <b>example</b> is: you want to write a story set in a mystical realm where young protagonists discover their hidden powers.</li>
