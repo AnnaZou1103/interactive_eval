@@ -83,7 +83,7 @@ export function AppNews() {
           </Card>
         </Container> */}
 
-        <Container disableGutters maxWidth='sm'>
+        {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Travel Planning</Typography>
@@ -93,7 +93,24 @@ export function AppNews() {
               <li>Review the travel plans and recommendations provided by the chatbot, ensuring that they align with your preferences and expectations.</li>
               <li>Confirm your plans before finalizing any arrangements.</li>
               <li>An <b>example</b> is: you want to travel to Tokyo for five days, and are interested in trying local cuisine and visiting historical landmarks.</li>
-              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. </li>
+              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process.</li>
+          </ul>
+          </CardContent>
+          </Card>
+        </Container> */}
+
+
+        <Container disableGutters maxWidth='sm'>
+          <Card>
+          <CardContent sx={{ position: 'relative', pr:0 }}>
+          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Learning through Inquiry</Typography>
+          The goal of this task is to utilize a chatbot as a learning tool to understand a chosen concept.
+          <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
+              <li>Begin by selecting the concept or topic you wish to understand and define the key challenging or unclear aspects.</li>
+              <li>If the ideas are complex, break them into simpler queries for clearer responses.</li>
+              <li>Keep asking questions until you achieve clarity on all related areas.</li>
+              <li>A possible <b>scenario</b> is: you want to learn about artificial intelligence.</li>
+              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process.</li>
           </ul>
           </CardContent>
           </Card>

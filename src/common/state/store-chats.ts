@@ -73,9 +73,23 @@ export interface DConversation {
 //   updated: null,
 // }
 
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Welcome to our travel planning task! To get started, please specify your desired destination(s), travel dates, and share your interests and expectations for the trip.",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
+
 export const initialmessage: DMessage = 
 {id: uuidv4(),
-  text:"Welcome to our travel planning task! To get started, please specify your desired destination(s), travel dates, and share your interests and expectations for the trip.",
+  text:"Welcome to our learning task! Feel free to express the specific areas of the concept that you find challenging or unclear.",
   sender: 'Bot',
   avatar: null,
   typing: false,
