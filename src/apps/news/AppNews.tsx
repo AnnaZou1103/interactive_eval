@@ -67,7 +67,7 @@ export function AppNews() {
           </Card>
         </Container> */}
 
-        <Container disableGutters maxWidth='sm'>
+        {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Collaborative Story Writing</Typography>
@@ -77,6 +77,22 @@ export function AppNews() {
                 Utilize your distinctive perspectives and skills to generate innovative concepts. </li>
               <li>Finally, come to a consensus on the conclusion of the collaborative story, offering resolution for characters and plotlines.</li>
               <li>An <b>example</b> is: you want to write a story set in a mystical realm where young protagonists discover their hidden powers.</li>
+              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. </li>
+          </ul>
+          </CardContent>
+          </Card>
+        </Container> */}
+
+        <Container disableGutters maxWidth='sm'>
+          <Card>
+          <CardContent sx={{ position: 'relative', pr:0 }}>
+          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Travel Planning</Typography>
+          The objective of this task is to effectively utilize a chatbot for travel planning, harnessing its features to offer tailored recommendations, itinerary suggestions, and assistance in line with your trip expectations. 
+          <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
+              <li>You can initiate interaction with the chatbot by greeting and introducing yourself, specifying your destinations, dates, and trip interests.</li>
+              <li>Review the travel plans and recommendations provided by the chatbot, ensuring that they align with your preferences and expectations.</li>
+              <li>Confirm your plans before finalizing any arrangements.</li>
+              <li>An <b>example</b> is: you want to travel to Tokyo for five days, and are interested in trying local cuisine and visiting historical landmarks.</li>
               <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. </li>
           </ul>
           </CardContent>

@@ -59,9 +59,23 @@ export interface DConversation {
 //   updated: null,
 // }
 
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Welcome to our collaborative story writing adventure, you will combine your creative storytelling skills with the chatbots' abilities. Let's begin by brainstorming story ideas, themes and plot elements.",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
+
 export const initialmessage: DMessage = 
 {id: uuidv4(),
-  text:"Welcome to our collaborative story writing adventure, you will combine your creative storytelling skills with the chatbots' abilities. Let's begin by brainstorming story ideas, themes and plot elements.",
+  text:"Welcome to our travel planning task! To get started, please specify your desired destination(s), travel dates, and share your interests and expectations for the trip.",
   sender: 'Bot',
   avatar: null,
   typing: false,
@@ -72,6 +86,7 @@ export const initialmessage: DMessage =
   created: Date.now(),
   updated: null,
 }
+
 
 export function createDConversation(systemPurposeId?: SystemPurposeId): DConversation {
   return {
