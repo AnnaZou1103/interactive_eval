@@ -201,6 +201,7 @@ interface ChatState {
   conversations: DConversation[];
   activeConversationId: string | null;
   activeEvaluationId: string | null;
+  isEvaluationCompleted: boolean;
 }
 
 interface ChatActions {
@@ -213,6 +214,7 @@ interface ChatActions {
   deleteAllConversations: () => void;
   setActiveConversationId: (conversationId: string) => void;
   setActiveEvaluationId: (conversationId: string|null) => void;
+  setEvaluationStatus: (evaluationStatus: boolean) => void;
 
 
   // within a conversation
@@ -229,6 +231,7 @@ interface ChatActions {
   isConversation: (conversation: DConversation)=>boolean;
   setPairedEvaluationId:(conversationId: string, evaluationId: string)=>void;
   getPairedEvaluationId:(conversationId: string) => string;
+  getConversationById:(conversationId: string) => DConversation|undefined;
 
   appendEphemeral: (conversationId: string, devTool: DEphemeral) => void;
   deleteEphemeral: (conversationId: string, ephemeralId: string) => void;
@@ -247,6 +250,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
       conversations: defaultConversations,
       activeConversationId: defaultConversations[0].id,
       activeEvaluationId: null,
+      isEvaluationCompleted: false,
 
 
       createConversation: () =>
@@ -262,6 +266,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
             ],
             activeConversationId: conversation.id,
             activeEvaluationId: null,
+            isEvaluationCompleted: false,
           };
         }),
 
@@ -279,6 +284,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
               ],
               activeConversationId: state.activeConversationId,
               activeEvaluationId: evaluation.id,
+              isEvaluationCompleted: false
             };
           }else{
             return {}
@@ -314,6 +320,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
             ],
             activeConversationId: duplicate.id,
             activeEvaluationId: null,
+            isEvaluationCompleted: false,
           };
         }),
 
@@ -336,6 +343,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
               ...state.conversations.filter((other: DConversation) => other.id !== conversation.id),
             ],
             activeConversationId: conversation.id,
+            isEvaluationCompleted: false,
           };
         });
       },
@@ -368,6 +376,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
             conversations,
             ...(activeConversationId !== undefined ? { activeConversationId } : {}),
             activeEvaluationId: null,
+            isEvaluationCompleted: false
           };
         }),
 
@@ -386,6 +395,7 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
             conversations: [conversation],
             activeConversationId: conversation.id,
             activeEvaluationId: null,
+            isEvaluationCompleted: false
           };
         });
       },
@@ -399,6 +409,9 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
 
       setActiveEvaluationId: (conversationId: string|null) =>        
       set({ activeEvaluationId: conversationId }),
+
+      setEvaluationStatus: (evaluationStatus: boolean) => 
+        set({isEvaluationCompleted: evaluationStatus}),
 
       setPairedEvaluationId: (conversationId: string, evaluationId: string) =>
         get()._editConversation(conversationId, convesation=>{
@@ -434,9 +447,12 @@ export const useChatStore = create<ChatState & ChatActions>()(devtools(
         }
       },
 
+      getConversationById: (conversationId: string)=>{
+        return get().conversations.find((conversation: DConversation): boolean => conversation.id === conversationId);
+      },
+
 
       // within a conversation
-
       startTyping: (conversationId: string, abortController: AbortController | null) =>
         get()._editConversation(conversationId, () =>
           ({

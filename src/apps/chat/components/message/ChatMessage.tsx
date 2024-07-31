@@ -456,6 +456,9 @@ export function ChatMessage(props: { message: DMessage, diffText?: string, showD
                             const index = conversation?.messages.length;
                             if (index && index<SurveyQuestions.length){
                               useChatStore.getState().appendMessage(activeEvaluationId, SurveyQuestions[index]);
+                              if (index == SurveyQuestions.length-1){
+                                useChatStore.getState().setEvaluationStatus(true);
+                              }
                             }
                           }else{
                             editMessage(activeEvaluationId,  messageId, {selected: choice}, true)

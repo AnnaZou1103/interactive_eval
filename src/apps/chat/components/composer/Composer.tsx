@@ -40,7 +40,6 @@ import { TokenBadge } from './TokenBadge';
 import { TokenProgressbar } from './TokenProgressbar';
 import { useComposerStore } from './store-composer';
 import { v4 as uuidv4 } from 'uuid';
-import { defaultSystemPurposeId, SurveyQuestions} from '../../../../data';
 import { DConversation} from '~/common/state/store-chats';
 import { conversationToJsonV1 } from '../../trade/trade.client';
 import { apiAsyncNode } from '~/common/util/trpc.client';
@@ -152,7 +151,6 @@ export function Composer(props: {
   const [reducerText, setReducerText] = React.useState('');
   const [reducerTextTokens, setReducerTextTokens] = React.useState(0);
   const [chatModeMenuAnchor, setChatModeMenuAnchor] = React.useState<HTMLAnchorElement | null>(null);
-  const [evaluationIndex, setEvaluationIndex] = React.useState(1);
   const attachmentFileInputRef = React.useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
   const [chatLinkUploading, setChatLinkUploading] = React.useState(false);
@@ -179,6 +177,10 @@ export function Composer(props: {
 
   const isEvaluation = useChatStore(state => {
     return state.activeEvaluationId!=null;
+  })
+
+  const isEvaluationCompleted = useChatStore(state => {
+    return state.isEvaluationCompleted;
   })
 
   // Effect: load initial text if queued up (e.g. by /launch)
@@ -450,12 +452,12 @@ export function Composer(props: {
   };
 
   const handleSaveClicked = async () => {
-    let currentConversationId = useChatStore.getState().activeConversationId;
-    if (!currentConversationId) return;
-    saveConversation(currentConversationId)
-    let currentEvaluationId = useChatStore.getState().activeEvaluationId;
-    if (!currentEvaluationId) return;
-    saveConversation(currentEvaluationId)
+      let currentConversationId = useChatStore.getState().activeConversationId;
+      if (!currentConversationId) return;
+      saveConversation(currentConversationId)
+      let currentEvaluationId = useChatStore.getState().activeEvaluationId;
+      if (!currentEvaluationId) return;
+      saveConversation(currentEvaluationId)
   };
 
   const handleRateClicked=() => {
@@ -736,7 +738,7 @@ export function Composer(props: {
               <Button
                   fullWidth variant='soft' 
                   color={chatLinkResponse?.type === 'success'? 'success' : chatLinkResponse?.type === 'error'? 'danger' : 'primary'}
-                  disabled={!props.conversationId || !chatLLM}
+                  disabled={!props.conversationId || !chatLLM || !isEvaluationCompleted}
                   loading={chatLinkUploading}
                   onClick={handleSaveClicked}
                 >

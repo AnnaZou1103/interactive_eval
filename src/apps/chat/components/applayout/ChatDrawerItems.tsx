@@ -12,6 +12,7 @@ import { useChatStore } from '~/common/state/store-chats';
 import { useUIPreferencesStore } from '~/common/state/store-ui';
 
 import { ConversationItem } from './ConversationItem';
+import { SurveyQuestions } from 'src/data';
 
 
 type ListGrouping = 'off' | 'persona';
@@ -26,15 +27,17 @@ export function ChatDrawerItems(props: {
   const [grouping] = React.useState<ListGrouping>('off');
 
   // external state
-  const { conversationIDs, topNewConversationId, maxChatMessages, setActiveConversationId, setActiveEvaluationId, getPairedEvaluationId, createConversation, deleteConversation } = useChatStore(state => ({
+  const { conversationIDs, topNewConversationId, maxChatMessages, setActiveConversationId, setActiveEvaluationId, getPairedEvaluationId, getConversationById, createConversation, deleteConversation,setEvaluationStatus} = useChatStore(state => ({
     conversationIDs: state.conversations.filter(state.isConversation).map(conversation => conversation.id),
     topNewConversationId: state.conversations.length ? state.conversations[0].messages.length === 0 ? state.conversations[0].id : null : null,
     maxChatMessages: state.conversations.reduce((longest, conversation) => Math.max(longest, conversation.messages.length), 0),
     setActiveConversationId: state.setActiveConversationId,
     setActiveEvaluationId: state.setActiveEvaluationId,
     getPairedEvaluationId: state.getPairedEvaluationId,
+    getConversationById: state.getConversationById,
     createConversation: state.createConversation,
     deleteConversation: state.deleteConversation,
+    setEvaluationStatus: state.setEvaluationStatus
   }), shallow);
   const { experimentalLabs, showSymbols } = useUIPreferencesStore(state => ({
     experimentalLabs: state.experimentalLabs,
@@ -61,7 +64,15 @@ export function ChatDrawerItems(props: {
     const pairedEvluationId = getPairedEvaluationId(conversationId);
     if (pairedEvluationId!=''){
       setActiveEvaluationId(pairedEvluationId);
+      let evaluation = getConversationById(pairedEvluationId);
+      if (evaluation){
+        let evaluationStatus = evaluation.messages.length==SurveyQuestions.length;
+        setEvaluationStatus(evaluationStatus);
+      }else{
+        setEvaluationStatus(false);
+      }
     }else{
+      setEvaluationStatus(false);
       setActiveEvaluationId(null);
     }
     if (closeMenu)
