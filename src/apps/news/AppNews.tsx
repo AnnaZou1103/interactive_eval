@@ -67,7 +67,7 @@ export function AppNews() {
           </Card>
         </Container> */}
 
-        {/* <Container disableGutters maxWidth='sm'>
+        <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Collaborative Story Writing</Typography>
@@ -81,9 +81,9 @@ export function AppNews() {
           </ul>
           </CardContent>
           </Card>
-        </Container> */}
+        </Container>
 
-        <Container disableGutters maxWidth='sm'>
+        {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Travel Planning</Typography>
@@ -97,7 +97,7 @@ export function AppNews() {
           </ul>
           </CardContent>
           </Card>
-        </Container>
+        </Container> */}
 
 
         {/* <Container disableGutters maxWidth='sm'>
