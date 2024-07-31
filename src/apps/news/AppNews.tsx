@@ -71,7 +71,7 @@ export function AppNews() {
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Collaborative Story Writing</Typography>
-          The aim of this collaborative story writing task is to fuse your creativity and storytelling prowess with that of chatbots to craft a narrative that surpasses conventional boundaries.
+          The aim of this collaborative story writing task is to fuse your creativity and storytelling prowess with that of chatbots to craft a fairy tale for young children.
           <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
               <li> You can kickstart the collaborative storytelling process by engaging in brainstorming sessions where both you and the chatbots contribute story ideas, themes, characters, and plot elements. 
                 Utilize your distinctive perspectives and skills to generate innovative concepts. </li>
@@ -83,7 +83,7 @@ export function AppNews() {
           </Card>
         </Container> */}
 
-        {/* <Container disableGutters maxWidth='sm'>
+        <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Travel Planning</Typography>
@@ -97,16 +97,16 @@ export function AppNews() {
           </ul>
           </CardContent>
           </Card>
-        </Container> */}
+        </Container>
 
 
-        <Container disableGutters maxWidth='sm'>
+        {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Learning through Inquiry</Typography>
-          The goal of this task is to utilize a chatbot as a learning tool to understand a chosen concept.
+          The goal of this task is to utilize a chatbot as a learning tool to understand a chosen concept in the computer science field.
           <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
-              <li>Begin by selecting the concept or topic you wish to understand and define the key challenging or unclear aspects.</li>
+              <li>Begin by selecting the concept or topic you wish to understand, and define the key challenging or unclear aspects.</li>
               <li>If the ideas are complex, break them into simpler queries for clearer responses.</li>
               <li>Keep asking questions until you achieve clarity on all related areas.</li>
               <li>A possible <b>scenario</b> is: you want to learn about artificial intelligence.</li>
@@ -114,7 +114,7 @@ export function AppNews() {
           </ul>
           </CardContent>
           </Card>
-        </Container>
+        </Container> */}
 
       <Button variant='solid' color='neutral' size='lg' component={Link} href='/' noLinkStyle>
         Got it!
