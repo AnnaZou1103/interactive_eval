@@ -59,19 +59,19 @@ export interface DConversation {
 //   updated: null,
 // }
 
-// export const initialmessage: DMessage = 
-// {id: uuidv4(),
-//   text:"Welcome to our collaborative story writing adventure, you will combine your creative storytelling skills with the chatbots' abilities. Let's begin by brainstorming story ideas, themes and plot elements.",
-//   sender: 'Bot',
-//   avatar: null,
-//   typing: false,
-//   role: 'assistant',
-//   isRated: false,
-//   purposeId: defaultSystemPurposeId,
-//   tokenCount: 0,
-//   created: Date.now(),
-//   updated: null,
-// }
+export const initialmessage: DMessage = 
+{id: uuidv4(),
+  text:"Welcome to our collaborative story writing adventure, you will combine your creative storytelling skills with the chatbots' abilities. Let's begin by brainstorming story ideas, themes and plot elements.",
+  sender: 'Bot',
+  avatar: null,
+  typing: false,
+  role: 'assistant',
+  isRated: false,
+  purposeId: defaultSystemPurposeId,
+  tokenCount: 0,
+  created: Date.now(),
+  updated: null,
+}
 
 // export const initialmessage: DMessage = 
 // {id: uuidv4(),
@@ -87,19 +87,19 @@ export interface DConversation {
 //   updated: null,
 // }
 
-export const initialmessage: DMessage = 
-{id: uuidv4(),
-  text:"Welcome to our learning task! Feel free to express the specific areas of the concept that you find challenging or unclear.",
-  sender: 'Bot',
-  avatar: null,
-  typing: false,
-  role: 'assistant',
-  isRated: false,
-  purposeId: defaultSystemPurposeId,
-  tokenCount: 0,
-  created: Date.now(),
-  updated: null,
-}
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Welcome to our learning task! Feel free to express the specific areas of the concept that you find challenging or unclear.",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
 
 
 export function createDConversation(systemPurposeId?: SystemPurposeId): DConversation {
