@@ -45,13 +45,13 @@ export function AppNews() {
                   articulating your need for personalized social support and sharing any concerns you may have.
               </li>
               <li>A possible <b>scenario</b> is: you failed an exam and worry about disappointing your parents.</li>
-              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. </li>
+              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. If you find it hard to start this task, ask the chatbot for an example.</li>
           </ul>
           </CardContent>
           </Card>
         </Container> */}
 
-        {/* <Container disableGutters maxWidth='sm'>
+        <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Chatbot Profile Comprehension</Typography>
@@ -61,13 +61,13 @@ export function AppNews() {
               Continue the conversation until you have a clear understanding of the chatbot persona. 
               </li>
               <li><b>Tips</b>: Start by asking about things the chatbot enjoys doing.</li>
-              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. </li>
+              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. If you find it hard to start this task, ask the chatbot for an example.</li>
           </ul>
           </CardContent>
           </Card>
-        </Container> */}
+        </Container>
 
-        <Container disableGutters maxWidth='sm'>
+        {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Collaborative Story Writing</Typography>
@@ -77,11 +77,11 @@ export function AppNews() {
                 Utilize your distinctive perspectives and skills to generate innovative concepts. </li>
               <li>Finally, come to a consensus on the conclusion of the collaborative story, offering resolution for characters and plotlines.</li>
               <li>An <b>example</b> is: you want to write a story set in a mystical realm where young protagonists discover their hidden powers.</li>
-              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. </li>
+              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. If you find it hard to start this task, ask the chatbot for an example.</li>
           </ul>
           </CardContent>
           </Card>
-        </Container>
+        </Container> */}
 
         {/* <Container disableGutters maxWidth='sm'>
           <Card>
@@ -93,7 +93,7 @@ export function AppNews() {
               <li>Review the travel plans and recommendations provided by the chatbot, ensuring that they align with your preferences and expectations.</li>
               <li>Confirm your plans before finalizing any arrangements.</li>
               <li>An <b>example</b> is: you want to travel to Tokyo for five days, and are interested in trying local cuisine and visiting historical landmarks.</li>
-              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process.</li>
+              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. If you find it hard to start this task, ask the chatbot for an example.</li>
           </ul>
           </CardContent>
           </Card>
@@ -110,7 +110,7 @@ export function AppNews() {
               <li>If the ideas are complex, break them into simpler queries for clearer responses.</li>
               <li>Keep asking questions until you achieve clarity on all related areas.</li>
               <li>A possible <b>scenario</b> is: you want to learn about artificial intelligence.</li>
-              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process.</li>
+              <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. If you find it hard to start this task, ask the chatbot for an example.</li>
           </ul>
           </CardContent>
           </Card>
