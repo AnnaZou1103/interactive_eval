@@ -102,7 +102,7 @@ export const useModelsStore = create<ModelsData & ModelsActions>()(
           const newLlms = [...llms, ...state.llms.filter(llm => !llms.find(m => m.id === llm.id))];
           return {
             llms: newLlms,
-            ...updateSelectedIds(newLlms, 'openai-gpt-3.5-turbo', state.fastLLMId, state.funcLLMId),
+            ...updateSelectedIds(newLlms, 'openai-gpt-4o-mini', state.fastLLMId, state.funcLLMId),
           };
         }),
 
@@ -187,7 +187,7 @@ export const useModelsStore = create<ModelsData & ModelsActions>()(
 );
 
 
-const defaultChatSuffixPreference = ['gpt-4-0613', 'gpt-4', 'gpt-4-32k', 'gpt-3.5-turbo'];
+const defaultChatSuffixPreference = ['gpt-4o-mini','gpt-4-0613', 'gpt-4', 'gpt-4-32k', 'gpt-3.5-turbo'];
 const defaultFastSuffixPreference = ['gpt-3.5-turbo-0613', 'gpt-3.5-turbo-16k-0613', 'gpt-3.5-turbo-16k', 'gpt-3.5-turbo'];
 const defaultFuncSuffixPreference = ['gpt-3.5-turbo-0613', 'gpt-4-0613'];
 
