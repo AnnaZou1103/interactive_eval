@@ -86,7 +86,7 @@ export function AppNews() {
         <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
-          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Travel Planning</Typography>
+          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Travel Itinerary Planning</Typography>
           The objective of this task is to effectively utilize a chatbot for travel planning, harnessing its features to offer tailored recommendations, itinerary suggestions, and assistance in line with your trip expectations. 
           <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
               <li>You can initiate interaction with the chatbot by greeting and introducing yourself, specifying your destinations, dates, and trip interests.</li>
