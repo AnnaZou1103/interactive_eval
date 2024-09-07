@@ -54,13 +54,10 @@ export function AppNews() {
         {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
-          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Chatbot Profile Comprehension</Typography>
+          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'></Typography>
           In this conversation, your task is to deduce the persona of the chatbot. 
           <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
-              <li>You can start by engaging in casual conversation and identify the key traits of the chatbot personality, tone, and characteristics based on your observations. 
-              Continue the conversation until you have a clear understanding of the chatbot persona. 
-              </li>
-              <li><b>Tips</b>: Start by asking about things the chatbot enjoys doing.</li>
+              <li><b>Tips</b>:</li>
               <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. If you find it hard to start this task, ask the chatbot for an example.</li>
           </ul>
           </CardContent>
@@ -70,13 +67,8 @@ export function AppNews() {
         {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
-          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Collaborative Story Writing</Typography>
-          The aim of this collaborative story writing task is to fuse your creativity and storytelling prowess with that of chatbots to craft a fairy tale for young children.
+          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'></Typography>
           <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
-              <li> You can kickstart the collaborative storytelling process by engaging in brainstorming sessions where both you and the chatbots contribute story ideas, themes, characters, and plot elements. 
-                Utilize your distinctive perspectives and skills to generate innovative concepts. </li>
-              <li>Finally, come to a consensus on the conclusion of the collaborative story, offering resolution for characters and plotlines.</li>
-              <li>An <b>example</b> is: you want to write a story set in a mystical realm where young protagonists discover their hidden powers.</li>
               <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. If you find it hard to start this task, ask the chatbot for an example.</li>
           </ul>
           </CardContent>
