@@ -28,6 +28,14 @@ const knownOpenAIChatModels: ({ idPrefix: string } & Omit<ModelDescriptionSchema
 
   // GPT4's
   {
+    idPrefix: 'gpt-4o',
+    label: 'GPT-4o',
+    description: 'Snapshot of gpt-4o with function calling data.',
+    contextWindow: 8192,
+    interfaces: [LLM_IF_OAI_Chat, LLM_IF_OAI_Fn],
+    hidden: false,
+  },
+  {
     idPrefix: 'gpt-4o-mini',
     label: 'GPT-4o-mini',
     description: 'Snapshot of gpt-4o-mini from 2024-07-18 with function calling data.',

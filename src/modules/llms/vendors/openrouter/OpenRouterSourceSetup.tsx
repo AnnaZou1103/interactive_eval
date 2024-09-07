@@ -81,6 +81,7 @@ const orModelMap: { [id: string]: { name: string; contextWindowSize: number; cos
   'mistralai/mistral-7b-instruct': { name: 'Mistral 7B Instruct v0.1 (beta)', contextWindowSize: 4096, cost1kPrompt: 0, cost1kCompletion: 0, isOld: false },
   'openai/gpt-3.5-turbo': { name: 'OpenAI: GPT-3.5 Turbo', contextWindowSize: 4095, cost1kPrompt: 0.0015, cost1kCompletion: 0.002, isOld: false },
   'openai/gpt-3.5-turbo-16k': { name: 'OpenAI: GPT-3.5 Turbo 16k', contextWindowSize: 16383, cost1kPrompt: 0.003, cost1kCompletion: 0.004, isOld: false },
+  'openai/gpt-4o': { name: 'OpenAI: GPT-4o', contextWindowSize: 8191, cost1kPrompt: 0.03, cost1kCompletion: 0.06, isOld: false },
   'openai/gpt-4o-mini': { name: 'OpenAI: GPT-4o mini', contextWindowSize: 8191, cost1kPrompt: 0.03, cost1kCompletion: 0.06, isOld: false },
   'openai/gpt-4': { name: 'OpenAI: GPT-4', contextWindowSize: 8191, cost1kPrompt: 0.03, cost1kCompletion: 0.06, isOld: false },
   'openai/gpt-4-32k': { name: 'OpenAI: GPT-4 32k', contextWindowSize: 32767, cost1kPrompt: 0.06, cost1kCompletion: 0.12, isOld: false },

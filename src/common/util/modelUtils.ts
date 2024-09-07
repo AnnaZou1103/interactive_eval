@@ -1,6 +1,7 @@
 export function prettyBaseModel(model: string | undefined): string {
   if (!model) return '';
   if (model.includes('gpt-4o-mini')) return 'gpt-4o-mini';
+  if (model.includes('gpt-4o')) return 'gpt-4o';
   if (model.includes('gpt-4-32k')) return 'gpt-4-32k';
   if (model.includes('gpt-4')) return 'gpt-4';
   if (model.includes('gpt-3.5-turbo-instruct')) return '3.5 Turbo Instruct';
