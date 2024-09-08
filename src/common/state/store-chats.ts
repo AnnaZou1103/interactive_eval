@@ -31,51 +31,9 @@ export interface DConversation {
   ephemerals: DEphemeral[];
 }
 
-// export const initialmessage: DMessage = 
-// {id: uuidv4(),
-//   text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen.",
-//   sender: 'Bot',
-//   avatar: null,
-//   typing: false,
-//   role: 'assistant',
-//   isRated: false,
-//   purposeId: defaultSystemPurposeId,
-//   tokenCount: 0,
-//   created: Date.now(),
-//   updated: null,
-// }
-
-// export const initialmessage: DMessage = 
-// {id: uuidv4(),
-//   text:"Welcome to our chat! As you engage in this conversation, your task is to deduce the persona of our chatbot. Let's start by having a casual conversation.",
-//   sender: 'Bot',
-//   avatar: null,
-//   typing: false,
-//   role: 'assistant',
-//   isRated: false,
-//   purposeId: defaultSystemPurposeId,
-//   tokenCount: 0,
-//   created: Date.now(),
-//   updated: null,
-// }
-
-// export const initialmessage: DMessage = 
-// {id: uuidv4(),
-//   text:"Welcome to our collaborative story writing adventure, you will combine your creative storytelling skills with the chatbots' abilities. Let's begin by brainstorming story ideas, themes and plot elements.",
-//   sender: 'Bot',
-//   avatar: null,
-//   typing: false,
-//   role: 'assistant',
-//   isRated: false,
-//   purposeId: defaultSystemPurposeId,
-//   tokenCount: 0,
-//   created: Date.now(),
-//   updated: null,
-// }
-
 export const initialmessage: DMessage = 
 {id: uuidv4(),
-  text:"Welcome to our travel planning task! To get started, please specify your desired destination(s), travel dates, and share your interests and expectations for the trip.",
+  text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen.",
   sender: 'Bot',
   avatar: null,
   typing: false,
@@ -86,6 +44,48 @@ export const initialmessage: DMessage =
   created: Date.now(),
   updated: null,
 }
+
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Welcome to our job interview simulation! I'll be asking you a series of questions to assess key behaviors that are important in the workplace. As we go through the interview, please take note of how my personality as an HR representative influences our conversation. Let's get started—can you describe a situation where you went beyond the expected to complete a task?",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
+
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Good morning! As we tackle today's challenges, remember, I'm here to support you. What's the first issue we should address together?",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
+
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Welcome to our travel planning task! To get started, please specify your desired destination(s), travel dates, and share your interests and expectations for the trip.",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
 
 // export const initialmessage: DMessage = 
 // {id: uuidv4(),
