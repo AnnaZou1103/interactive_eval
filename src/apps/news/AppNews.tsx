@@ -54,21 +54,27 @@ export function AppNews() {
         {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
-          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'></Typography>
-          In this conversation, your task is to deduce the persona of the chatbot. 
+          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Job Interview</Typography>
+            Your task is to participate in a simulated job interview conducted by the chatbot.
           <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
-              <li><b>Tips</b>:</li>
+            <li>Respond to the chatbot's questions as if you are a candidate in a real interview. The interview will focus on assessing your Organizational Citizenship Behaviors (OCB) such as initiative, helping, and compliance.</li>
+              <li>A possible <b>scenario</b> is : you are applying for the position of a purchasing guide.</li>
               <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. If you find it hard to start this task, ask the chatbot for an example.</li>
           </ul>
           </CardContent>
           </Card>
         </Container> */}
-
-        {/* <Container disableGutters maxWidth='sm'>
+{/* 
+        <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
-          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'></Typography>
+          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Public Services</Typography>
+          The objective of this task is to use the chatbot to address work-related challenges.
           <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
+            <li>Imagine you're a public service employee dealing with typical workday problems.</li>
+            <li>Describe the challenges you face, and the chatbot will guide you with suggestions.</li>
+            <li>For more complex situations, tackle them step by step, and continue asking questions until all aspects are clear.</li>
+          <li>A possible <b>scenario</b> is: you face resource allocation problem.</li>
               <li>P.S. Please <b>don’t</b> disclose your private information during this conversational process. If you find it hard to start this task, ask the chatbot for an example.</li>
           </ul>
           </CardContent>
@@ -95,7 +101,7 @@ export function AppNews() {
         {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
-          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Learning through Inquiry</Typography>
+          <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Guided Learning through Inquiry</Typography>
           The goal of this task is to utilize a chatbot as a learning tool to understand a chosen concept in the computer science field.
           <ul style={{ marginTop: 8, marginBottom: 8, paddingInlineStart: 24 }}>
               <li>Begin by selecting the concept or topic you wish to understand, and define the key challenging or unclear aspects.</li>
