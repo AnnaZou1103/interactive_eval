@@ -33,7 +33,7 @@ export interface DConversation {
 
 export const initialmessage: DMessage = 
 {id: uuidv4(),
-  text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen. What kind of social concern do you have?",
+  text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen. What kind of personal concern do you have?",
   sender: 'Bot',
   avatar: null,
   typing: false,
