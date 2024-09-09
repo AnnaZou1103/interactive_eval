@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-export const ChatBotType: SystemPurposeId[] = [ 'CON_high_4', 'EXT_low_9'];
+export const ChatBotType: SystemPurposeId[] = ['EXT_low_9'];
 
-export type SystemPurposeId = 'CON_high_4'|'EXT_low_9'|'Custom';
+export type SystemPurposeId = 'EXT_low_9'|'Custom';
 
 export const defaultSystemPurposeId: SystemPurposeId = ChatBotType[Math.floor(Math.random() * ChatBotType.length)];
 import {DMessage} from '~/common/state/store-chats';
