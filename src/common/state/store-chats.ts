@@ -31,19 +31,19 @@ export interface DConversation {
   ephemerals: DEphemeral[];
 }
 
-export const initialmessage: DMessage = 
-{id: uuidv4(),
-  text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen. What kind of personal concern do you have?",
-  sender: 'Bot',
-  avatar: null,
-  typing: false,
-  role: 'assistant',
-  isRated: false,
-  purposeId: defaultSystemPurposeId,
-  tokenCount: 0,
-  created: Date.now(),
-  updated: null,
-}
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen. What kind of personal concern do you have?",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
 
 // export const initialmessage: DMessage = 
 // {id: uuidv4(),
@@ -87,19 +87,19 @@ export const initialmessage: DMessage =
 //   updated: null,
 // }
 
-// export const initialmessage: DMessage = 
-// {id: uuidv4(),
-//   text:"Welcome to our learning task! Feel free to express the specific areas of the concept that you find challenging or unclear.",
-//   sender: 'Bot',
-//   avatar: null,
-//   typing: false,
-//   role: 'assistant',
-//   isRated: false,
-//   purposeId: defaultSystemPurposeId,
-//   tokenCount: 0,
-//   created: Date.now(),
-//   updated: null,
-// }
+export const initialmessage: DMessage = 
+{id: uuidv4(),
+  text:"Welcome to our learning task! Feel free to express the specific areas of the concept that you find challenging or unclear. What concept would you like me to explain？",
+  sender: 'Bot',
+  avatar: null,
+  typing: false,
+  role: 'assistant',
+  isRated: false,
+  purposeId: defaultSystemPurposeId,
+  tokenCount: 0,
+  created: Date.now(),
+  updated: null,
+}
 
 
 export function createDConversation(systemPurposeId?: SystemPurposeId): DConversation {
