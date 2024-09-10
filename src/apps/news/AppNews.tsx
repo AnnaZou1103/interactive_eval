@@ -111,11 +111,11 @@ export function AppNews() {
           </ul>
           </CardContent>
           </Card>
-        </Container>
+        </Container> */}
 
       <Button variant='solid' color='neutral' size='lg' component={Link} href='/' noLinkStyle>
         Got it!
-      </Button> */}
+      </Button>
 
       {/*<Typography sx={{ textAlign: 'center' }}>*/}
       {/*  Enjoy!*/}
