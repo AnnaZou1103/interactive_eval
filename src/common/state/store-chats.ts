@@ -61,7 +61,7 @@ export interface DConversation {
 
 export const initialmessage: DMessage = 
 {id: uuidv4(),
-  text:"Welcom to our chatbot! As we tackle your workday's challenges, I'm here to support you. What's the first issue we should address together?",
+  text:"Welcom to our chatbot! As we tackle your workday's challenges, I'm here to support you. What's the first workday issue we should address together?",
   sender: 'Bot',
   avatar: null,
   typing: false,
