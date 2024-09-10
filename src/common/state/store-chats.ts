@@ -45,19 +45,19 @@ export interface DConversation {
 //   updated: null,
 // }
 
-// export const initialmessage: DMessage = 
-// {id: uuidv4(),
-//   text:"Welcome to our job interview simulation! I'll be asking you a series of questions to assess key behaviors that are important in the workplace. Let's get started—can you describe a situation where you went beyond the expected to complete a task?.",
-//   sender: 'Bot',
-//   avatar: null,
-//   typing: false,
-//   role: 'assistant',
-//   isRated: false,
-//   purposeId: defaultSystemPurposeId,
-//   tokenCount: 0,
-//   created: Date.now(),
-//   updated: null,
-// }
+export const initialmessage: DMessage = 
+{id: uuidv4(),
+  text:"Welcome to our job interview simulation! I'll be asking you a series of questions to assess key behaviors that are important in the workplace. Let's get started—can you describe a situation where you went beyond the expected to complete a task?.",
+  sender: 'Bot',
+  avatar: null,
+  typing: false,
+  role: 'assistant',
+  isRated: false,
+  purposeId: defaultSystemPurposeId,
+  tokenCount: 0,
+  created: Date.now(),
+  updated: null,
+}
 
 // export const initialmessage: DMessage = 
 // {id: uuidv4(),
@@ -87,19 +87,19 @@ export interface DConversation {
 //   updated: null,
 // }
 
-export const initialmessage: DMessage = 
-{id: uuidv4(),
-  text:"Welcome to our learning task! Feel free to express the specific areas of the concept that you find challenging or unclear. What concept would you like me to explain？",
-  sender: 'Bot',
-  avatar: null,
-  typing: false,
-  role: 'assistant',
-  isRated: false,
-  purposeId: defaultSystemPurposeId,
-  tokenCount: 0,
-  created: Date.now(),
-  updated: null,
-}
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Welcome to our learning task! Feel free to express the specific areas of the concept that you find challenging or unclear. What concept would you like me to explain？",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
 
 
 export function createDConversation(systemPurposeId?: SystemPurposeId): DConversation {

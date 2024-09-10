@@ -51,7 +51,7 @@ export function AppNews() {
           </Card>
         </Container> */}
 
-        {/* <Container disableGutters maxWidth='sm'>
+        <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Job Interview</Typography>
@@ -63,7 +63,7 @@ export function AppNews() {
           </ul>
           </CardContent>
           </Card>
-        </Container> */}
+        </Container>
 {/* 
         <Container disableGutters maxWidth='sm'>
           <Card>
@@ -97,7 +97,7 @@ export function AppNews() {
           </Card>
         </Container> */}
 
-        <Container disableGutters maxWidth='sm'>
+        {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Guided Learning through Inquiry</Typography>
@@ -115,7 +115,7 @@ export function AppNews() {
 
       <Button variant='solid' color='neutral' size='lg' component={Link} href='/' noLinkStyle>
         Got it!
-      </Button>
+      </Button> */}
 
       {/*<Typography sx={{ textAlign: 'center' }}>*/}
       {/*  Enjoy!*/}
