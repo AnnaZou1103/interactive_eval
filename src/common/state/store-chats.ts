@@ -45,23 +45,9 @@ export interface DConversation {
 //   updated: null,
 // }
 
-export const initialmessage: DMessage = 
-{id: uuidv4(),
-  text:"Welcome to our job interview simulation! I'll be asking you a series of questions to assess key behaviors that are important in the workplace. Let's get started—can you describe a situation where you went beyond the expected to complete a task?.",
-  sender: 'Bot',
-  avatar: null,
-  typing: false,
-  role: 'assistant',
-  isRated: false,
-  purposeId: defaultSystemPurposeId,
-  tokenCount: 0,
-  created: Date.now(),
-  updated: null,
-}
-
 // export const initialmessage: DMessage = 
 // {id: uuidv4(),
-//   text:"Welcom to our chatbot! As we tackle your workday's challenges, I'm here to support you. What's the first issue we should address together?",
+//   text:"Welcome to our job interview simulation! I'll be asking you a series of questions to assess key behaviors that are important in the workplace. Let's get started—can you describe a situation where you went beyond the expected to complete a task?",
 //   sender: 'Bot',
 //   avatar: null,
 //   typing: false,
@@ -72,6 +58,20 @@ export const initialmessage: DMessage =
 //   created: Date.now(),
 //   updated: null,
 // }
+
+export const initialmessage: DMessage = 
+{id: uuidv4(),
+  text:"Welcom to our chatbot! As we tackle your workday's challenges, I'm here to support you. What's the first issue we should address together?",
+  sender: 'Bot',
+  avatar: null,
+  typing: false,
+  role: 'assistant',
+  isRated: false,
+  purposeId: defaultSystemPurposeId,
+  tokenCount: 0,
+  created: Date.now(),
+  updated: null,
+}
 
 // export const initialmessage: DMessage = 
 // {id: uuidv4(),
