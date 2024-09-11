@@ -30,7 +30,7 @@ export function AppNews() {
       gap: 4,
     }}>
   
-      {/* <Typography level='h1' sx={{fontSize: '2.3rem'}}>
+      <Typography level='h1' sx={{fontSize: '2.3rem'}}>
           Task Instructions
       </Typography>
       <Container disableGutters maxWidth='sm'>
@@ -49,7 +49,7 @@ export function AppNews() {
           </ul>
           </CardContent>
           </Card>
-        </Container> */}
+        </Container>
 
         {/* <Container disableGutters maxWidth='sm'>
           <Card>
@@ -65,7 +65,7 @@ export function AppNews() {
           </Card>
         </Container> */}
 
-        <Container disableGutters maxWidth='sm'>
+        {/* <Container disableGutters maxWidth='sm'>
           <Card>
           <CardContent sx={{ position: 'relative', pr:0 }}>
           <Typography level='h2' fontSize="xl"sx={{ mb: 0.5 }}  component='div'>Public Services</Typography>
@@ -79,7 +79,7 @@ export function AppNews() {
           </ul>
           </CardContent>
           </Card>
-        </Container>
+        </Container> */}
 
         {/* <Container disableGutters maxWidth='sm'>
           <Card>

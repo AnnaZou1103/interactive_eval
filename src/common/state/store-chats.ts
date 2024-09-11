@@ -31,19 +31,19 @@ export interface DConversation {
   ephemerals: DEphemeral[];
 }
 
-// export const initialmessage: DMessage = 
-// {id: uuidv4(),
-//   text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen. What kind of personal concern do you have?",
-//   sender: 'Bot',
-//   avatar: null,
-//   typing: false,
-//   role: 'assistant',
-//   isRated: false,
-//   purposeId: defaultSystemPurposeId,
-//   tokenCount: 0,
-//   created: Date.now(),
-//   updated: null,
-// }
+export const initialmessage: DMessage = 
+{id: uuidv4(),
+  text:"Welcome to our chatbot! Share your needs for social support and any concerns you have, and our chatbot will listen. What kind of personal concern do you have?",
+  sender: 'Bot',
+  avatar: null,
+  typing: false,
+  role: 'assistant',
+  isRated: false,
+  purposeId: defaultSystemPurposeId,
+  tokenCount: 0,
+  created: Date.now(),
+  updated: null,
+}
 
 // export const initialmessage: DMessage = 
 // {id: uuidv4(),
@@ -59,19 +59,19 @@ export interface DConversation {
 //   updated: null,
 // }
 
-export const initialmessage: DMessage = 
-{id: uuidv4(),
-  text:"Welcom to our chatbot! As we tackle your workday's challenges, I'm here to support you. What's the first workday issue we should address together?",
-  sender: 'Bot',
-  avatar: null,
-  typing: false,
-  role: 'assistant',
-  isRated: false,
-  purposeId: defaultSystemPurposeId,
-  tokenCount: 0,
-  created: Date.now(),
-  updated: null,
-}
+// export const initialmessage: DMessage = 
+// {id: uuidv4(),
+//   text:"Welcom to our chatbot! As we tackle your workday's challenges, I'm here to support you. What's the first workday issue we should address together?",
+//   sender: 'Bot',
+//   avatar: null,
+//   typing: false,
+//   role: 'assistant',
+//   isRated: false,
+//   purposeId: defaultSystemPurposeId,
+//   tokenCount: 0,
+//   created: Date.now(),
+//   updated: null,
+// }
 
 // export const initialmessage: DMessage = 
 // {id: uuidv4(),
